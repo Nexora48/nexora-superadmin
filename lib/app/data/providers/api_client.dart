@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart' hide Response, MultipartFile, FormData;
 
 import '../../core/constants/app_config.dart';
 import '../../services/token_service.dart';
@@ -19,6 +19,11 @@ class ApiClient extends GetxService {
   /// Called when the session is dead (refresh failed). Set by AuthService in M1.
   void Function()? onSessionExpired;
 
+  /// Business errors every screen should react to the same way (set by AuthService, M3).
+  void Function()? onFeatureDisabled; // FEATURE_DISABLED: refresh the feature map
+  void Function()? onSocietySuspended; // SOCIETY_SUSPENDED: sign out + show the paused message
+  void Function()? onPasswordChangeRequired; // PASSWORD_CHANGE_REQUIRED: go to the change-password screen
+
   late final Dio _dio = Dio(BaseOptions(
     baseUrl: AppConfig.apiV1,
     connectTimeout: AppConfig.connectTimeout,
@@ -33,7 +38,20 @@ class ApiClient extends GetxService {
       },
       onError: (e, handler) async {
         final retried = e.requestOptions.extra['retried'] == true;
-        if (e.response?.statusCode == 401 && !retried && onRefresh != null) {
+        final isAuthCall = e.requestOptions.path.contains('/auth/');
+        if (!isAuthCall) {
+          final body = e.response?.data;
+          final code = body is Map && body['error'] is Map ? '${(body['error'] as Map)['code']}' : '';
+          switch (code) {
+            case 'FEATURE_DISABLED':
+              onFeatureDisabled?.call();
+            case 'SOCIETY_SUSPENDED':
+              onSocietySuspended?.call();
+            case 'PASSWORD_CHANGE_REQUIRED':
+              onPasswordChangeRequired?.call();
+          }
+        }
+        if (e.response?.statusCode == 401 && !retried && !isAuthCall && onRefresh != null) {
           if (await onRefresh!()) {
             final opts = e.requestOptions..extra['retried'] = true;
             opts.headers['Authorization'] = 'Bearer ${TokenService.to.accessToken}';
@@ -51,6 +69,37 @@ class ApiClient extends GetxService {
 
   Future<dynamic> get(String path, {Map<String, dynamic>? query}) =>
       _send(() => _dio.get(path, queryParameters: query));
+
+  /// GET that also returns the envelope's pagination meta.
+  Future<({dynamic data, Map<String, dynamic> meta})> getPaged(String path,
+      {Map<String, dynamic>? query}) async {
+    try {
+      final res = await _dio.get(path, queryParameters: query);
+      final body = res.data;
+      if (body is Map) {
+        return (
+          data: body['data'],
+          meta: ((body['meta'] as Map?) ?? const {}).cast<String, dynamic>(),
+        );
+      }
+      return (data: body, meta: <String, dynamic>{});
+    } on DioException catch (e) {
+      throw _map(e);
+    }
+  }
+
+  /// Multipart upload of one file in the form field named file.
+  Future<dynamic> postFile(String path,
+          {required List<int> bytes,
+          required String filename,
+          Map<String, dynamic>? query}) =>
+      _send(() => _dio.post(
+            path,
+            queryParameters: query,
+            data: FormData.fromMap({
+              'file': MultipartFile.fromBytes(bytes, filename: filename),
+            }),
+          ));
 
   Future<dynamic> post(String path, {Object? body}) =>
       _send(() => _dio.post(path, data: body));
