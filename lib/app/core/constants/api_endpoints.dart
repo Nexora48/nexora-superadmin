@@ -27,4 +27,30 @@ abstract class ApiEndpoints {
   static const String platformInvoices = '/superadmin/billing/invoices';
   static const String platformInvoicesGenerate = '/superadmin/billing/invoices/generate';
   static String platformInvoicePaid(String id) => '/superadmin/billing/invoices/$id/paid';
+
+  // ── Plans, analytics, audit v2, staff, broadcast, system (M10) ─────────────
+  static const String acceptInvite = '/superadmin/auth/accept-invite';
+  static const String plans = '/superadmin/plans';
+  static String plan(String id) => '/superadmin/plans/$id';
+  static String planArchive(String id) => '/superadmin/plans/$id/archive';
+  static String planSocieties(String id) => '/superadmin/plans/$id/societies';
+  static String societyPlan(String id) => '/superadmin/societies/$id/plan';
+  static String societyUsage(String id) => '/superadmin/societies/$id/usage';
+  static const String analyticsMetrics = '/superadmin/analytics/metrics';
+  static const String analyticsOverview = '/superadmin/analytics/overview';
+  static const String analyticsServices = '/superadmin/analytics/services';
+  static const String analyticsSeries = '/superadmin/analytics/timeseries';
+  static const String analyticsTop = '/superadmin/analytics/top';
+  static String auditEntry(int id) => '/superadmin/audit/$id';
+  static const String auditExport = '/superadmin/audit/export.csv';
+  static const String auditSettings = '/superadmin/audit/settings';
+  static const String staff = '/superadmin/staff';
+  static String staffMember(String id) => '/superadmin/staff/$id';
+  static String staffReinvite(String id) => '/superadmin/staff/$id/reinvite';
+  static String staffResetMfa(String id) => '/superadmin/staff/$id/reset-mfa';
+  static const String broadcasts = '/superadmin/broadcasts';
+  static String broadcastCancel(String id) => '/superadmin/broadcasts/$id/cancel';
+  static const String systemHealth = '/superadmin/health';
+  static const String appVersions = '/superadmin/app-versions';
+  static String appVersion(String app) => '/superadmin/app-versions/$app';
 }

@@ -21,7 +21,11 @@ void main() async {
   // The session died (refresh failed / revoked / role removed) -> back to sign-in.
   auth.onSessionExpired = () => Get.offAllNamed(Routes.login);
 
-  final initialRoute = await auth.restoreSession() ? Routes.mainLayout : Routes.login;
+  // an invitation link (/#/accept-invite?token=...) opens the set-password screen
+  final invited = Uri.base.fragment.startsWith(Routes.acceptInvite);
+  final initialRoute = invited
+      ? Routes.acceptInvite
+      : (await auth.restoreSession() ? Routes.mainLayout : Routes.login);
 
   runApp(
     GetMaterialApp(

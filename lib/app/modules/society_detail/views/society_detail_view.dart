@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_text_theme.dart';
+import '../../../core/utils/money.dart';
+import '../../../core/widgets/charts.dart';
 import '../../../core/widgets/common.dart';
+import '../../../core/widgets/dialogs.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../services/platform_auth_service.dart';
 import '../controllers/society_detail_controller.dart';
@@ -274,7 +277,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
 
     // ── Tabs ────────────────────────────────────────────────────────────────
     tabBar() {
-      const labels = ['Overview', 'Services', 'Admins', 'Activity'];
+      const labels = ['Overview', 'Services', 'Admins', 'Activity', 'Usage'];
       return Obx(() => Wrap(
             spacing: 8,
             children: [
@@ -474,6 +477,195 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
       );
     }
 
+    // ── Usage (M10) ─────────────────────────────────────────────────────────
+    assignDialog() {
+      controller.openAssign();
+      Get.dialog(
+        dialogShell(
+          context,
+          title: 'Change plan',
+          maxWidth: 480,
+          body: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              Text('The plan\'s price is copied into this society\'s subscription and its services are switched on or off to match. Limits start applying straight away; nothing is deleted if the society is already over one.', style: context.appText.timestamp),
+              Obx(
+                () => DropdownButtonFormField<String>(
+                  initialValue: controller.pickedPlan.value.isEmpty ? null : controller.pickedPlan.value,
+                  isExpanded: true,
+                  decoration: const InputDecoration(labelText: 'Plan', isDense: true),
+                  items: [
+                    for (final p in controller.plans)
+                      DropdownMenuItem(value: p.id, child: Text('${p.name} · ${rupees(p.ratePerUnitPaise)}/flat${p.flatFeePaise > 0 ? ' + ${rupees(p.flatFeePaise)}' : ''}')),
+                  ],
+                  onChanged: (v) => controller.pickedPlan.value = v ?? '',
+                ),
+              ),
+              Obx(
+                () => CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  controlAffinity: ListTileControlAffinity.leading,
+                  value: controller.keepPrice.value,
+                  onChanged: (v) => controller.keepPrice.value = v ?? false,
+                  title: const Text('Keep this society\'s current price', style: TextStyle(fontSize: 13)),
+                ),
+              ),
+              dialogErrorText(controller.dialogError),
+            ],
+          ),
+          actions: [
+            TextButton(onPressed: Get.back, child: const Text('Cancel')),
+            Obx(
+              () => FilledButton(
+                onPressed: controller.dialogBusy.value
+                    ? null
+                    : () async {
+                        final r = await controller.assignPlan();
+                        if (r == null) return;
+                        Get.back();
+                        if (r.exceeded.isNotEmpty) {
+                          Get.dialog(
+                            dialogShell(
+                              Get.context!,
+                              title: 'Already over some limits',
+                              maxWidth: 440,
+                              body: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Text('Nothing was removed, but the society cannot add more of these until it is under the limit:', style: TextStyle(fontSize: 13)),
+                                  const SizedBox(height: 8),
+                                  for (final u in r.exceeded) Text('• ${u.name}: ${u.used} of ${u.max}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                                ],
+                              ),
+                              actions: [FilledButton(onPressed: Get.back, child: const Text('OK'))],
+                            ),
+                          );
+                        }
+                      },
+                child: const Text('Change plan'),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    usageTab(SocietyDetail d) {
+      const labels = {
+        'active_users': 'Active user-days',
+        'logins': 'Sign-ins',
+        'visitors': 'Visitors',
+        'deliveries': 'Deliveries',
+        'complaints_new': 'New complaints',
+        'notices': 'Notices',
+        'polls': 'Polls',
+        'sos': 'SOS alerts',
+        'bookings': 'Bookings',
+        'invoices_issued': 'Invoices issued',
+        'attendance_events': 'Attendance check-ins',
+        'notifications': 'Notifications',
+        'push': 'Push messages',
+        'sms': 'SMS',
+      };
+      return Obx(() {
+        if (controller.usageLoading.value) return const Padding(padding: EdgeInsets.all(24), child: Center(child: CircularProgressIndicator()));
+        final u = controller.usage.value;
+        if (u == null) {
+          return stateMessage(context, icon: Icons.cloud_off_rounded, title: 'Could not load usage', subtitle: controller.usageError.value, actionLabel: 'Retry', onAction: controller.loadUsage);
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            cardBox(
+              child: Row(
+                children: [
+                  const Icon(Icons.workspace_premium_outlined, color: AppColors.primary),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(u.planName, style: context.appText.sectionHeader),
+                        if (u.differsFromPlan.isNotEmpty)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4),
+                            child: pill('Services differ from the plan: ${u.differsFromPlan.join(', ')}', AppColors.warning, AppColors.warningLight),
+                          ),
+                      ],
+                    ),
+                  ),
+                  if (canEdit) OutlinedButton(onPressed: assignDialog, child: const Text('Change plan')),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            cardBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Limits', style: context.appText.sectionHeader),
+                  const SizedBox(height: 6),
+                  for (final r in u.usage) limitBar(r),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            cardBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('This month so far', style: context.appText.sectionHeader),
+                  const SizedBox(height: 10),
+                  Wrap(
+                    spacing: 22,
+                    runSpacing: 12,
+                    children: [
+                      for (final e in labels.entries)
+                        SizedBox(
+                          width: 130,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(compact(u.monthTotals[e.key] ?? 0), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                              Text(e.value, style: context.appText.timestamp),
+                            ],
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            LayoutBuilder(builder: (context, c) {
+              final cols = c.maxWidth >= 900 ? 2 : 1;
+              final w = (c.maxWidth - (cols - 1) * 14) / cols;
+              Widget chart(String key, Color color) => SizedBox(
+                width: w,
+                child: cardBox(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('${labels[key] ?? key} · 30 days', style: context.appText.sectionHeader.copyWith(fontSize: 14)),
+                      const SizedBox(height: 8),
+                      trendChart(u.series[key] ?? const [], color: color, height: 140),
+                    ],
+                  ),
+                ),
+              );
+              return Wrap(spacing: 14, runSpacing: 14, children: [
+                chart('active_users', AppColors.primary),
+                chart('visitors', AppColors.success),
+                chart('complaints_new', AppColors.warning),
+                chart('notifications', AppColors.primary),
+              ]);
+            }),
+          ],
+        );
+      });
+    }
+
     // ── Activity ────────────────────────────────────────────────────────────
     activityTab() {
       return Obx(() {
@@ -541,7 +733,8 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                 0 => overviewTab(d),
                 1 => servicesTab(d),
                 2 => adminsTab(d),
-                _ => activityTab(),
+                3 => activityTab(),
+                _ => usageTab(d),
               },
             ],
           );

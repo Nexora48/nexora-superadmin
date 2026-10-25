@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../data/models/m10_models.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../data/providers/api_client.dart';
 import '../../../data/providers/api_exception.dart';
+import '../../../data/repositories/m10_repository.dart';
 import '../../../data/repositories/platform_repository.dart';
 
 class SocietyDetailController extends GetxController {
   final PlatformRepository _repo = PlatformRepository(ApiClient.to);
+  final M10Repository _m10 = M10Repository(ApiClient.to);
 
   late final String id;
 
@@ -16,10 +19,18 @@ class SocietyDetailController extends GetxController {
   final RxString error = ''.obs;
   final RxString notice = ''.obs;
 
-  /// 0 Overview, 1 Services, 2 Admins, 3 Activity
+  /// 0 Overview, 1 Services, 2 Admins, 3 Activity, 4 Usage
   final RxInt tab = 0.obs;
   final RxList<AuditRow> activity = <AuditRow>[].obs;
   final RxBool activityLoading = false.obs;
+
+  // usage tab (M10)
+  final Rxn<SocietyUsage> usage = Rxn<SocietyUsage>();
+  final RxList<Plan> plans = <Plan>[].obs;
+  final RxBool usageLoading = false.obs;
+  final RxString usageError = ''.obs;
+  final RxString pickedPlan = ''.obs;
+  final RxBool keepPrice = false.obs;
 
   // ── Dialog state (shared by every dialog on this screen) ───────────────────
   final RxBool dialogBusy = false.obs;
@@ -69,6 +80,7 @@ class SocietyDetailController extends GetxController {
   void selectTab(int i) {
     tab.value = i;
     if (i == 3) loadActivity();
+    if (i == 4) loadUsage();
   }
 
   Future<void> loadActivity() async {
@@ -79,6 +91,44 @@ class SocietyDetailController extends GetxController {
       error.value = e.message;
     } finally {
       activityLoading.value = false;
+    }
+  }
+
+  Future<void> loadUsage() async {
+    usageLoading.value = usage.value == null;
+    usageError.value = '';
+    try {
+      final r = await Future.wait([_m10.societyUsage(id), _m10.plans()]);
+      usage.value = r[0] as SocietyUsage;
+      plans.assignAll((r[1] as List<Plan>).where((p) => !p.archived));
+    } on ApiException catch (e) {
+      usageError.value = e.message;
+    } finally {
+      usageLoading.value = false;
+    }
+  }
+
+  void openAssign() {
+    dialogError.value = '';
+    pickedPlan.value = usage.value?.planId ?? (plans.isNotEmpty ? plans.first.id : '');
+    keepPrice.value = false;
+  }
+
+  /// Assigns the picked plan; returns the result (with limits already exceeded) or null on error.
+  Future<AssignResult?> assignPlan() async {
+    if (pickedPlan.value.isEmpty || dialogBusy.value) return null;
+    dialogBusy.value = true;
+    dialogError.value = '';
+    try {
+      final r = await _m10.assignPlan(id, pickedPlan.value, keepCustomPrice: keepPrice.value);
+      showNotice('Plan changed to ${r.plan.name}: price and services updated');
+      await Future.wait([loadUsage(), load()]);
+      return r;
+    } on ApiException catch (e) {
+      dialogError.value = e.message;
+      return null;
+    } finally {
+      dialogBusy.value = false;
     }
   }
 

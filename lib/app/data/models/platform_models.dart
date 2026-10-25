@@ -163,9 +163,13 @@ class AuditRow {
   final int id;
   final String actorType;
   final String? actorName;
+  final String? actorEmail;
+  final String? actorRole;
+  final String? societyId;
   final String? societyName;
   final String action;
   final String entity;
+  final String entityId;
   final Map<String, dynamic> meta;
   final String ip;
   final DateTime createdAt;
@@ -174,9 +178,13 @@ class AuditRow {
     required this.id,
     required this.actorType,
     this.actorName,
+    this.actorEmail,
+    this.actorRole,
+    this.societyId,
     this.societyName,
     required this.action,
     required this.entity,
+    this.entityId = '',
     required this.meta,
     required this.ip,
     required this.createdAt,
@@ -186,9 +194,13 @@ class AuditRow {
         id: (j['id'] as num).toInt(),
         actorType: '${j['actor_type']}',
         actorName: j['actor_name'] as String?,
+        actorEmail: j['actor_email'] as String?,
+        actorRole: j['actor_role'] as String?,
+        societyId: j['society_id'] as String?,
         societyName: j['society_name'] as String?,
         action: '${j['action']}',
         entity: '${j['entity'] ?? ''}',
+        entityId: '${j['entity_id'] ?? ''}',
         meta: ((j['meta'] as Map?) ?? const {}).cast<String, dynamic>(),
         ip: '${j['ip'] ?? ''}',
         createdAt: DateTime.tryParse('${j['created_at']}') ?? DateTime.now(),
@@ -239,8 +251,40 @@ class AuditRow {
         return 'Failed staff sign-in';
       case 'platform.mfa_failed':
         return 'Failed 2FA code';
+      case 'plan.create':
+        return 'Plan created: ${((meta['after'] as Map?) ?? const {})['name'] ?? ''}';
+      case 'plan.update':
+        return 'Plan edited: ${((meta['after'] as Map?) ?? const {})['name'] ?? ''}';
+      case 'plan.archive':
+        return 'Plan archived: ${meta['key'] ?? ''}';
+      case 'plan.assign':
+        return 'Plan changed: ${meta['from'] ?? 'none'} → ${meta['to'] ?? ''}';
+      case 'staff.invite':
+        return 'Staff invited: ${meta['email'] ?? ''}';
+      case 'staff.reinvite':
+        return 'Invitation re-issued: ${meta['email'] ?? ''}';
+      case 'staff.update':
+        return 'Staff access changed';
+      case 'staff.reset_mfa':
+        return 'Authenticator reset';
+      case 'broadcast.create':
+        return 'Broadcast sent: ${meta['title'] ?? ''}';
+      case 'broadcast.cancel':
+        return 'Broadcast cancelled';
+      case 'app_version.set':
+        return 'App version rules changed: $entityId';
+      case 'audit.export':
+        return 'Audit log exported (${meta['rows'] ?? 0} rows)';
+      case 'audit.retention':
+        return 'Audit retention changed to ${meta['after'] ?? ''} days';
+      case 'audit.purge':
+        return 'Old audit entries removed (${meta['removed'] ?? 0})';
+      case 'subscription.set':
+        return 'Subscription changed';
       default:
-        return action;
+        // "payment.record" → "Payment record"
+        final t = action.replaceAll('.', ' ').replaceAll('_', ' ');
+        return t.isEmpty ? action : '${t[0].toUpperCase()}${t.substring(1)}';
     }
   }
 }

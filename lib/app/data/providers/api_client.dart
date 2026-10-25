@@ -101,6 +101,17 @@ class ApiClient extends GetxService {
             }),
           ));
 
+  /// GET that returns the raw response text (CSV exports).
+  Future<String> getText(String path, {Map<String, dynamic>? query}) async {
+    try {
+      final res = await _dio.get<String>(path,
+          queryParameters: query, options: Options(responseType: ResponseType.plain));
+      return res.data ?? '';
+    } on DioException catch (e) {
+      throw _map(e);
+    }
+  }
+
   Future<dynamic> post(String path, {Object? body}) =>
       _send(() => _dio.post(path, data: body));
 

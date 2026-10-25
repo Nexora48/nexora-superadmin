@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 
+import '../modules/accept_invite/bindings/accept_invite_binding.dart';
+import '../modules/accept_invite/views/accept_invite_view.dart';
+import '../modules/analytics/bindings/analytics_binding.dart';
 import '../modules/audit_logs/bindings/audit_logs_binding.dart';
 import '../modules/billing/bindings/billing_binding.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
@@ -9,12 +12,15 @@ import '../modules/main_layout/bindings/main_layout_binding.dart';
 import '../modules/main_layout/views/main_layout_view.dart';
 import '../modules/mfa/bindings/mfa_binding.dart';
 import '../modules/mfa/views/mfa_view.dart';
+import '../modules/plans/bindings/plans_binding.dart';
 import '../modules/services/bindings/services_binding.dart';
 import '../modules/society_create/bindings/society_create_binding.dart';
 import '../modules/society_create/views/society_create_view.dart';
 import '../modules/society_detail/bindings/society_detail_binding.dart';
 import '../modules/society_detail/views/society_detail_view.dart';
 import '../modules/societies/bindings/societies_binding.dart';
+import '../modules/staff/bindings/staff_binding.dart';
+import '../modules/system/bindings/system_binding.dart';
 
 part 'app_routes.dart';
 
@@ -35,10 +41,15 @@ class AppPages {
         SocietiesBinding(),
         ServicesBinding(),
         BillingBinding(),
+        PlansBinding(),
+        AnalyticsBinding(),
         AuditLogsBinding(),
+        StaffBinding(),
+        SystemBinding(),
       ],
     ),
     GetPage(name: _Paths.societyDetail, page: () => const SocietyDetailView(), binding: SocietyDetailBinding()),
     GetPage(name: _Paths.societyCreate, page: () => const SocietyCreateView(), binding: SocietyCreateBinding()),
+    GetPage(name: _Paths.acceptInvite, page: () => const AcceptInviteView(), binding: AcceptInviteBinding()),
   ];
 }

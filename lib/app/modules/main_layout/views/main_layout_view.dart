@@ -4,18 +4,32 @@ import 'package:get/get.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../services/platform_auth_service.dart';
+import '../../analytics/views/analytics_view.dart';
 import '../../audit_logs/views/audit_logs_view.dart';
 import '../../billing/views/billing_view.dart';
 import '../../dashboard/views/dashboard_view.dart';
+import '../../plans/views/plans_view.dart';
 import '../../services/views/services_view.dart';
 import '../../societies/views/societies_view.dart';
+import '../../staff/views/staff_view.dart';
+import '../../system/views/system_view.dart';
 import '../controllers/main_layout_controller.dart';
 
 class MainLayoutView extends GetView<MainLayoutController> {
   const MainLayoutView({super.key});
 
-  static const _icons = [Icons.dashboard_outlined, Icons.apartment_rounded, Icons.toggle_on_outlined, Icons.payments_outlined, Icons.history_rounded];
-  static const _pages = <Widget>[DashboardView(), SocietiesView(), ServicesView(), BillingView(), AuditLogsView()];
+  static const _icons = [
+    Icons.dashboard_outlined,
+    Icons.apartment_rounded,
+    Icons.workspace_premium_outlined,
+    Icons.insights_rounded,
+    Icons.toggle_on_outlined,
+    Icons.payments_outlined,
+    Icons.history_rounded,
+    Icons.groups_2_outlined,
+    Icons.monitor_heart_outlined,
+  ];
+  static const _pages = <Widget>[DashboardView(), SocietiesView(), PlansView(), AnalyticsView(), ServicesView(), BillingView(), AuditLogsView(), StaffView(), SystemView()];
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +135,8 @@ class MainLayoutView extends GetView<MainLayoutController> {
               child: Text('SUPERADMIN', style: TextStyle(color: Color(0xFFB6C6E3), fontSize: 10, letterSpacing: 1.4)),
             ),
             const SizedBox(height: 28),
-            for (var i = 0; i < _pages.length; i++) ...[navItem(i, afterTap: afterTap), const SizedBox(height: 4)],
+            for (var i = 0; i < _pages.length; i++)
+              if (controller.visible(i)) ...[navItem(i, afterTap: afterTap), const SizedBox(height: 4)],
             const Spacer(),
             userCard(),
           ],

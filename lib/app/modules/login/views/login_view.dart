@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_text_theme.dart';
 import '../../../core/widgets/common.dart';
+import '../../../routes/app_pages.dart';
 import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
@@ -70,6 +71,8 @@ class LoginView extends GetView<LoginController> {
               )),
           const SizedBox(height: 14),
           Text('You will be asked for a 6-digit code from your authenticator app next.', style: context.appText.timestamp),
+          const SizedBox(height: 6),
+          TextButton(onPressed: () => Get.toNamed(Routes.acceptInvite), child: const Text('I have an invitation')),
         ],
       );
     }
