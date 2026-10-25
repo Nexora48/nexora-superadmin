@@ -5,6 +5,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_radius.dart';
 import '../../../services/platform_auth_service.dart';
 import '../../audit_logs/views/audit_logs_view.dart';
+import '../../billing/views/billing_view.dart';
 import '../../dashboard/views/dashboard_view.dart';
 import '../../services/views/services_view.dart';
 import '../../societies/views/societies_view.dart';
@@ -13,8 +14,8 @@ import '../controllers/main_layout_controller.dart';
 class MainLayoutView extends GetView<MainLayoutController> {
   const MainLayoutView({super.key});
 
-  static const _icons = [Icons.dashboard_outlined, Icons.apartment_rounded, Icons.toggle_on_outlined, Icons.history_rounded];
-  static const _pages = <Widget>[DashboardView(), SocietiesView(), ServicesView(), AuditLogsView()];
+  static const _icons = [Icons.dashboard_outlined, Icons.apartment_rounded, Icons.toggle_on_outlined, Icons.payments_outlined, Icons.history_rounded];
+  static const _pages = <Widget>[DashboardView(), SocietiesView(), ServicesView(), BillingView(), AuditLogsView()];
 
   @override
   Widget build(BuildContext context) {

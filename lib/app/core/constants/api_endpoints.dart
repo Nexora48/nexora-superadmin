@@ -21,4 +21,10 @@ abstract class ApiEndpoints {
   static const String catalogue = '/superadmin/features';
   static const String audit = '/superadmin/audit';
   static const String stats = '/superadmin/stats';
+
+  // ── Billing (M9) ───────────────────────────────────────────────────────────
+  static String subscription(String societyId) => '/superadmin/societies/$societyId/subscription';
+  static const String platformInvoices = '/superadmin/billing/invoices';
+  static const String platformInvoicesGenerate = '/superadmin/billing/invoices/generate';
+  static String platformInvoicePaid(String id) => '/superadmin/billing/invoices/$id/paid';
 }

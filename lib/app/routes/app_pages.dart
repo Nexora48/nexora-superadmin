@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../modules/audit_logs/bindings/audit_logs_binding.dart';
+import '../modules/billing/bindings/billing_binding.dart';
 import '../modules/dashboard/bindings/dashboard_binding.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
@@ -33,6 +34,7 @@ class AppPages {
         DashboardBinding(),
         SocietiesBinding(),
         ServicesBinding(),
+        BillingBinding(),
         AuditLogsBinding(),
       ],
     ),
