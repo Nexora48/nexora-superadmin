@@ -328,10 +328,18 @@ class StaffMember {
 class InviteResult {
   final StaffMember user;
   final String token;
-  const InviteResult({required this.user, required this.token});
+
+  /// An invitation e-mail was handed to the mail server.
+  final bool emailed;
+  const InviteResult({
+    required this.user,
+    required this.token,
+    this.emailed = false,
+  });
   factory InviteResult.fromJson(Map<String, dynamic> j) => InviteResult(
     user: StaffMember.fromJson(_m(j['user'])),
     token: '${j['invite_token']}',
+    emailed: j['emailed'] == true,
   );
 }
 
@@ -398,6 +406,7 @@ class HealthCheck {
 
 class HealthReport {
   final String version;
+  final String commit;
   final int uptimeSeconds;
   final String status;
   final int migration;
@@ -406,6 +415,7 @@ class HealthReport {
 
   const HealthReport({
     required this.version,
+    this.commit = '',
     required this.uptimeSeconds,
     required this.status,
     required this.migration,
@@ -415,6 +425,7 @@ class HealthReport {
 
   factory HealthReport.fromJson(Map<String, dynamic> j) => HealthReport(
     version: '${j['version']}',
+    commit: '${j['commit'] ?? ''}',
     uptimeSeconds: _i(j['uptime_seconds']),
     status: '${j['status']}',
     migration: _i(j['migration_version']),

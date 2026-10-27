@@ -83,7 +83,7 @@ class SystemView extends GetView<SystemController> {
               ),
               const Spacer(),
               Text(
-                'API ${h.version} · up ${controller.uptime(h.uptimeSeconds)} · migration ${h.migration}',
+                'API ${h.version}${h.commit.isEmpty ? '' : ' (${h.commit})'} · up ${controller.uptime(h.uptimeSeconds)} · migration ${h.migration}',
                 style: context.appText.timestamp,
               ),
               IconButton(

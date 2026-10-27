@@ -24,9 +24,11 @@ class StaffView extends GetView<StaffController> {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Send this link to the new staff member. It works once and expires in 72 hours. Nexora does not email it yet, so copy it now: it is not shown again.',
-                style: TextStyle(fontSize: 13),
+              Text(
+                r.emailed
+                    ? 'An invitation e-mail was sent to ${r.user.email}. The link below works once and expires in 72 hours; keep it in case the e-mail does not arrive. It is not shown again.'
+                    : 'No e-mail was sent (the mail server is not configured). Send this link to the new staff member yourself. It works once and expires in 72 hours, and it is not shown again.',
+                style: const TextStyle(fontSize: 13),
               ),
               const SizedBox(height: 12),
               SelectableText(

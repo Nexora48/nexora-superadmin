@@ -216,4 +216,47 @@ void main() {
     expect(compact(3400000), '3.4M');
     expect(shortDay('2026-11-07'), '7 Nov');
   });
+
+  test(
+    'invitation result says whether an e-mail went out; health shows the commit',
+    () {
+      final r = InviteResult.fromJson({
+        'invite_token': 'abc',
+        'emailed': true,
+        'user': {
+          'id': '1',
+          'email': 'a@b.c',
+          'full_name': 'A',
+          'role': 'platform_support',
+          'status': 'active',
+          'created_at': '2026-01-01T00:00:00Z',
+        },
+      });
+      expect(r.emailed, isTrue);
+      expect(
+        InviteResult.fromJson({
+          'invite_token': 'x',
+          'user': {
+            'id': '1',
+            'email': 'a@b.c',
+            'full_name': 'A',
+            'role': 'platform_support',
+            'status': 'active',
+            'created_at': '2026-01-01T00:00:00Z',
+          },
+        }).emailed,
+        isFalse,
+      );
+      final h = HealthReport.fromJson({
+        'version': '1.2.0',
+        'commit': 'abc12345',
+        'uptime_seconds': 1,
+        'status': 'ok',
+        'migration_version': 51,
+        'checks': [],
+        'sweepers': [],
+      });
+      expect(h.commit, 'abc12345');
+    },
+  );
 }
