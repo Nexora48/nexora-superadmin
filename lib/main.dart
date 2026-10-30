@@ -19,7 +19,9 @@ void main() async {
   final auth = await Get.putAsync(() => PlatformAuthService().init());
 
   // The session died (refresh failed / revoked / role removed) -> back to sign-in.
-  auth.onSessionExpired = () => Get.offAllNamed(Routes.login);
+  auth.onSessionExpired = () {
+    if (Get.key.currentState != null) Get.offAllNamed(Routes.login);
+  };
 
   // an invitation link (/#/accept-invite?token=...) opens the set-password screen
   final invited = Uri.base.fragment.startsWith(Routes.acceptInvite);
