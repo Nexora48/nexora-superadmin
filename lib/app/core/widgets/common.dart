@@ -33,35 +33,43 @@ String timeAgo(DateTime? d) {
   return formatDate(d);
 }
 
-/// Coloured pill for a society status.
+/// Coloured pill for a society status, with a status dot.
 Widget statusChip(String status) {
-  final (bg, fg, label) = switch (status) {
-    'active' => (AppColors.successLight, AppColors.success, 'Active'),
-    'trial' => (AppColors.primaryLighter, AppColors.primary, 'Trial'),
-    'suspended' => (AppColors.errorLight, AppColors.error, 'Suspended'),
-    _ => (AppColors.backgroundLight, AppColors.textSecondaryLight, status),
+  final (color, label) = switch (status) {
+    'active' => (AppColors.success, 'Active'),
+    'trial' => (AppColors.primary, 'Trial'),
+    'suspended' => (AppColors.error, 'Suspended'),
+    _ => (AppColors.textSecondaryLight, status),
   };
   return Container(
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-    decoration: BoxDecoration(color: bg, borderRadius: AppRadius.pill),
-    child: Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: fg)),
+    decoration: BoxDecoration(color: color.withAlpha(28), borderRadius: AppRadius.pill),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
+        const SizedBox(width: 6),
+        Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: color)),
+      ],
+    ),
   );
 }
 
-/// White bordered card.
+/// White rounded card with a soft shadow.
 Widget cardBox({required Widget child, EdgeInsets padding = const EdgeInsets.all(16)}) {
   return Container(
     padding: padding,
     decoration: BoxDecoration(
       color: AppColors.surfaceLight,
-      borderRadius: AppRadius.lgAll,
+      borderRadius: BorderRadius.circular(16),
       border: Border.all(color: AppColors.dividerLight),
+      boxShadow: [BoxShadow(color: Colors.black.withAlpha(8), blurRadius: 12, offset: const Offset(0, 4))],
     ),
     child: child,
   );
 }
 
-/// Centered icon + title + subtitle with an optional button (empty and error states).
+/// Centered icon tile + title + subtitle with an optional button (empty and error states).
 Widget stateMessage(
   BuildContext context, {
   required IconData icon,
@@ -76,8 +84,13 @@ Widget stateMessage(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 44, color: AppColors.textSecondaryLight),
-          const SizedBox(height: 12),
+          Container(
+            width: 64,
+            height: 64,
+            decoration: BoxDecoration(color: AppColors.primary.withAlpha(22), borderRadius: BorderRadius.circular(20)),
+            child: Icon(icon, size: 30, color: AppColors.primary),
+          ),
+          const SizedBox(height: 14),
           Text(title, style: context.appText.sectionHeader, textAlign: TextAlign.center),
           if (subtitle != null) ...[
             const SizedBox(height: 6),

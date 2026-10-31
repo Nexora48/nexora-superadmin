@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../core/theme/app_colors.dart';
-import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_text_theme.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/common.dart';
+import '../../../core/widgets/dialogs.dart' as shared;
+import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/billing_models.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../services/platform_auth_service.dart';
@@ -19,54 +20,14 @@ class BillingView extends GetView<BillingController> {
   Widget build(BuildContext context) {
     final canEdit = PlatformAuthService.to.canEdit;
 
-    pill(String text, Color fg, Color bg) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(color: bg, borderRadius: AppRadius.pill),
-      child: Text(
-        text,
-        style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: fg),
-      ),
-    );
-
     dialogShell({
       required String title,
       required Widget body,
       required List<Widget> actions,
-    }) => Dialog(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 480),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 14, 8, 6),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Text(title, style: context.appText.sectionHeader),
-                  ),
-                  IconButton(
-                    onPressed: Get.back,
-                    icon: const Icon(Icons.close_rounded),
-                  ),
-                ],
-              ),
-            ),
-            const Divider(height: 1),
-            Padding(padding: const EdgeInsets.all(20), child: body),
-            const Divider(height: 1),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                spacing: 8,
-                children: actions,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+      String? subtitle,
+      IconData? icon,
+      Color color = AppColors.primary,
+    }) => shared.dialogShell(context, title: title, subtitle: subtitle, icon: icon, color: color, maxWidth: 480, body: body, actions: actions);
 
     dialogError() => Obx(
       () => controller.dialogError.value.isEmpty
@@ -87,6 +48,8 @@ class BillingView extends GetView<BillingController> {
       Get.dialog(
         dialogShell(
           title: 'Generate invoices',
+          subtitle: 'One invoice per billing society',
+          icon: Icons.receipt_long_rounded,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -136,6 +99,9 @@ class BillingView extends GetView<BillingController> {
       Get.dialog(
         dialogShell(
           title: 'Mark ${i.number} as paid',
+          subtitle: 'Record the bank transfer',
+          icon: Icons.price_check_rounded,
+          color: AppColors.success,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -149,8 +115,8 @@ class BillingView extends GetView<BillingController> {
                 maxLength: 80,
                 decoration: const InputDecoration(
                   labelText: 'Bank reference (required)',
+                  prefixIcon: Icon(Icons.tag_rounded, size: 20),
                   counterText: '',
-                  isDense: true,
                 ),
               ),
               dialogError(),
@@ -179,6 +145,9 @@ class BillingView extends GetView<BillingController> {
       Get.dialog(
         dialogShell(
           title: 'Subscription · ${s.name}',
+          subtitle: 'What Nexora charges this society',
+          icon: Icons.autorenew_rounded,
+          color: AppColors.teal,
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 10,
@@ -195,7 +164,7 @@ class BillingView extends GetView<BillingController> {
                 decoration: const InputDecoration(
                   labelText: 'Rate per flat per month',
                   prefixText: '₹ ',
-                  isDense: true,
+                  prefixIcon: Icon(Icons.home_work_outlined, size: 20),
                 ),
               ),
               TextField(
@@ -206,7 +175,7 @@ class BillingView extends GetView<BillingController> {
                 decoration: const InputDecoration(
                   labelText: 'Flat monthly fee (optional)',
                   prefixText: '₹ ',
-                  isDense: true,
+                  prefixIcon: Icon(Icons.payments_outlined, size: 20),
                 ),
               ),
               TextField(
@@ -214,7 +183,7 @@ class BillingView extends GetView<BillingController> {
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: 'Billing day (1-28)',
-                  isDense: true,
+                  prefixIcon: Icon(Icons.event_repeat_rounded, size: 20),
                 ),
               ),
               Obx(
@@ -247,47 +216,45 @@ class BillingView extends GetView<BillingController> {
 
     // ── Invoices ────────────────────────────────────────────────────────────
     invoiceRow(PlatformInvoice i) {
-      final (fg, bg, label) = i.paid
-          ? (AppColors.success, AppColors.successLight, 'Paid')
+      final (color, label) = i.paid
+          ? (AppColors.success, 'Paid')
           : i.overdue
-          ? (AppColors.error, AppColors.errorLight, 'Overdue')
-          : (AppColors.orange, AppColors.warningLight, 'Open');
-      return cardBox(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${i.society} · ${periodLabel(i.period)}',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    '${i.number} · ${i.units} flats · due ${i.dueDate}${i.paid ? ' · paid ${i.paidOn ?? ''} · ${i.reference ?? ''}' : ''}',
-                    style: context.appText.timestamp,
-                  ),
-                ],
+          ? (AppColors.error, 'Overdue')
+          : (AppColors.orange, 'Open');
+      return SoftCard(
+        accent: color,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            spacing: 14,
+            children: [
+              IconTile(i.paid ? Icons.receipt_long_rounded : Icons.request_quote_outlined, color),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 4,
+                  children: [
+                    Text('${i.society} · ${periodLabel(i.period)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                    Wrap(spacing: 14, runSpacing: 4, children: [
+                      MetaItem(Icons.tag_rounded, i.number),
+                      MetaItem(Icons.meeting_room_outlined, '${i.units} flats'),
+                      MetaItem(Icons.event_outlined, 'Due ${i.dueDate}'),
+                      if (i.paid) MetaItem(Icons.check_circle_outline_rounded, 'Paid ${i.paidOn ?? ''}${(i.reference ?? '').isEmpty ? '' : ' · ${i.reference}'}'),
+                    ]),
+                  ],
+                ),
               ),
-            ),
-            Text(
-              rupees(i.amountPaise),
-              style: const TextStyle(fontWeight: FontWeight.w800),
-            ),
-            const SizedBox(width: 12),
-            pill(label, fg, bg),
-            if (canEdit && !i.paid) ...[
-              const SizedBox(width: 8),
-              OutlinedButton(
-                onPressed: () => paidDialog(i),
-                child: const Text('Mark paid'),
-              ),
+              Text(rupees(i.amountPaise), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
+              PillTag(label, color),
+              if (canEdit && !i.paid)
+                FilledButton.tonalIcon(
+                  onPressed: () => paidDialog(i),
+                  icon: const Icon(Icons.price_check_rounded, size: 18),
+                  label: const Text('Mark paid'),
+                ),
             ],
-          ],
+          ),
         ),
       );
     }
@@ -295,36 +262,29 @@ class BillingView extends GetView<BillingController> {
     invoicesTab() => Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
+        Wrap(
+          spacing: 12,
+          runSpacing: 10,
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Obx(
-              () => Wrap(
-                spacing: 8,
-                children: [
-                  for (final f in BillingController.statusFilters.keys)
-                    ChoiceChip(
-                      label: Text(f),
-                      selected: controller.statusFilter.value == f,
-                      onSelected: (_) => controller.statusFilter.value = f,
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
+            Obx(() {
+              final keys = BillingController.statusFilters.keys.toList();
+              return Segmented(
+                items: keys,
+                selected: keys.indexOf(controller.statusFilter.value),
+                onTap: (i) => controller.statusFilter.value = keys[i],
+              );
+            }),
             SizedBox(
-              width: 170,
+              width: 190,
               child: Obx(
                 () => AppDropdown<String>(
                   initialValue: controller.period.value,
                   isDense: true,
-                  decoration: const InputDecoration(isDense: true),
+                  decoration: const InputDecoration(isDense: true, labelText: 'Month', prefixIcon: Icon(Icons.calendar_month_outlined, size: 20)),
                   items: [
-                    const DropdownMenuItem(
-                      value: '',
-                      child: Text('Every month'),
-                    ),
-                    for (final x in controller.periods)
-                      DropdownMenuItem(value: x, child: Text(periodLabel(x))),
+                    const DropdownMenuItem(value: '', child: Text('Every month')),
+                    for (final x in controller.periods) DropdownMenuItem(value: x, child: Text(periodLabel(x))),
                   ],
                   onChanged: (v) => controller.period.value = v ?? '',
                 ),
@@ -361,10 +321,7 @@ class BillingView extends GetView<BillingController> {
             return ListView(
               children: [
                 for (final i in controller.invoices)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8),
-                    child: invoiceRow(i),
-                  ),
+                  invoiceRow(i),
               ],
             );
           }),
@@ -384,9 +341,10 @@ class BillingView extends GetView<BillingController> {
                     : null,
                 icon: const Icon(Icons.chevron_left_rounded),
               ),
-              Text(
-                '$page / ${controller.pages}',
-                style: const TextStyle(fontWeight: FontWeight.w600),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                decoration: BoxDecoration(color: AppColors.primary.withAlpha(22), borderRadius: BorderRadius.circular(10)),
+                child: Text('$page / ${controller.pages}', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.primary)),
               ),
               IconButton(
                 onPressed: page < controller.pages
@@ -403,47 +361,53 @@ class BillingView extends GetView<BillingController> {
     // ── Subscriptions ───────────────────────────────────────────────────────
     subscriptionRow(SocietyRow s) {
       final sub = controller.subscriptions[s.id];
-      return cardBox(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    s.name,
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  Text(
-                    sub == null ||
-                            (sub.ratePerUnitPaise == 0 && sub.flatFeePaise == 0)
-                        ? '${s.flats} flats · no subscription set'
-                        : '${s.flats} flats · ${rupees(sub.ratePerUnitPaise)} per flat${sub.flatFeePaise > 0 ? ' + ${rupees(sub.flatFeePaise)}' : ''} · ${rupees(sub.nextAmountPaise)} a month',
-                    style: context.appText.timestamp,
-                  ),
-                ],
+      final billing = sub != null && sub.active;
+      final unset = sub == null || (sub.ratePerUnitPaise == 0 && sub.flatFeePaise == 0);
+      final color = billing ? AppColors.success : AppColors.textSecondaryLight;
+      return SoftCard(
+        accent: color,
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          child: Row(
+            spacing: 14,
+            children: [
+              IconTile(Icons.apartment_rounded, billing ? AppColors.primary : AppColors.textSecondaryLight),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 4,
+                  children: [
+                    Text(s.name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                    Wrap(spacing: 14, runSpacing: 4, children: [
+                      MetaItem(Icons.meeting_room_outlined, '${s.flats} flats'),
+                      if (unset)
+                        const MetaItem(Icons.info_outline_rounded, 'No subscription set')
+                      else ...[
+                        MetaItem(Icons.sell_outlined, '${rupees(sub.ratePerUnitPaise)} per flat${sub.flatFeePaise > 0 ? ' + ${rupees(sub.flatFeePaise)}' : ''}'),
+                        MetaItem(Icons.event_repeat_rounded, 'Bills on day ${sub.billingDay}'),
+                      ],
+                    ]),
+                  ],
+                ),
               ),
-            ),
-            if (sub != null && sub.active)
-              pill('Active', AppColors.success, AppColors.successLight)
-            else
-              pill(
-                'Not billing',
-                AppColors.textSecondaryLight,
-                AppColors.backgroundLight,
-              ),
-            if (canEdit) ...[
-              const SizedBox(width: 8),
-              OutlinedButton(
-                onPressed: () => subscriptionDialog(s),
-                child: const Text('Edit'),
-              ),
+              if (!unset)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(rupees(sub.nextAmountPaise), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
+                    Text('a month', style: context.appText.timestamp),
+                  ],
+                ),
+              PillTag(billing ? 'Active' : 'Not billing', color),
+              if (canEdit)
+                OutlinedButton.icon(
+                  onPressed: () => subscriptionDialog(s),
+                  icon: const Icon(Icons.edit_outlined, size: 16),
+                  label: Text(unset ? 'Set up' : 'Edit'),
+                ),
             ],
-          ],
+          ),
         ),
       );
     }
@@ -463,13 +427,54 @@ class BillingView extends GetView<BillingController> {
       return ListView(
         children: [
           for (final s in controller.societies)
-            Padding(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: subscriptionRow(s),
-            ),
+            subscriptionRow(s),
         ],
       );
     });
+
+    // ── Summary tiles (from the subscriptions) ──────────────────────────────
+    summaryTile(IconData icon, Color color, String value, String label) {
+      return Expanded(
+        child: Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: AppColors.surfaceLight,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.dividerLight),
+            boxShadow: [BoxShadow(color: Colors.black.withAlpha(8), blurRadius: 12, offset: const Offset(0, 4))],
+          ),
+          child: Row(spacing: 12, children: [
+            IconTile(icon, color),
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
+              ]),
+            ),
+          ]),
+        ),
+      );
+    }
+
+    summaryRow() {
+      return Obx(() {
+        final subs = controller.subscriptions.values.where((s) => s.active).toList();
+        final mrr = subs.fold<int>(0, (sum, s) => sum + s.nextAmountPaise);
+        final notBilling = controller.societies.length - subs.length;
+        return LayoutBuilder(builder: (context, c) {
+          final tiles = [
+            summaryTile(Icons.currency_rupee_rounded, AppColors.success, rupees(mrr), 'Monthly recurring revenue'),
+            summaryTile(Icons.autorenew_rounded, AppColors.primary, '${subs.length}', 'Societies billing'),
+            summaryTile(Icons.pause_circle_outline_rounded, AppColors.orange, '${notBilling < 0 ? 0 : notBilling}', 'Not billing yet'),
+            summaryTile(Icons.receipt_long_rounded, AppColors.purple, '${controller.total.value}', 'Invoices in this view'),
+          ];
+          if (c.maxWidth < 700) {
+            return Column(spacing: 10, children: [Row(spacing: 10, children: [tiles[0], tiles[1]]), Row(spacing: 10, children: [tiles[2], tiles[3]])]);
+          }
+          return Row(spacing: 12, children: tiles);
+        });
+      });
+    }
 
     return Padding(
       padding: const EdgeInsets.all(20),
@@ -479,9 +484,12 @@ class BillingView extends GetView<BillingController> {
           Row(
             children: [
               Expanded(
-                child: Text(
-                  'Billing',
-                  style: context.appText.sectionHeader.copyWith(fontSize: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Billing', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                    Text('What Nexora charges each society. Payments are recorded here after a bank transfer.', style: context.appText.timestamp),
+                  ],
                 ),
               ),
               if (canEdit)
@@ -492,11 +500,8 @@ class BillingView extends GetView<BillingController> {
                 ),
             ],
           ),
-          const SizedBox(height: 4),
-          Text(
-            'What Nexora charges each society. Payments are recorded here after a bank transfer.',
-            style: context.appText.timestamp,
-          ),
+          const SizedBox(height: 16),
+          summaryRow(),
           const SizedBox(height: 12),
           Obx(
             () => controller.notice.value.isEmpty
@@ -506,43 +511,26 @@ class BillingView extends GetView<BillingController> {
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: AppColors.successLight,
-                      borderRadius: AppRadius.mdAll,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: AppColors.success.withAlpha(80)),
                     ),
                     child: Row(
                       children: [
-                        const Icon(
-                          Icons.check_circle_rounded,
-                          color: AppColors.success,
-                          size: 18,
-                        ),
+                        const Icon(Icons.check_circle_rounded, color: AppColors.success, size: 18),
                         const SizedBox(width: 8),
-                        Expanded(child: Text(controller.notice.value)),
+                        Expanded(child: Text(controller.notice.value, style: const TextStyle(fontWeight: FontWeight.w700))),
                       ],
                     ),
                   ),
           ),
-          Obx(
-            () => Wrap(
-              spacing: 8,
-              children: [
-                for (final t in const [
-                  'Invoices',
-                  'Subscriptions',
-                ].asMap().entries)
-                  ChoiceChip(
-                    label: Text(t.value),
-                    selected: controller.tab.value == t.key,
-                    onSelected: (_) => controller.tab.value = t.key,
-                  ),
-              ],
-            ),
-          ),
+          Obx(() => Align(
+                alignment: Alignment.centerLeft,
+                child: Segmented(items: const ['Invoices', 'Subscriptions'], selected: controller.tab.value, onTap: (i) => controller.tab.value = i),
+              )),
           const SizedBox(height: 14),
           Expanded(
             child: Obx(
-              () => controller.tab.value == 0
-                  ? invoicesTab()
-                  : subscriptionsTab(),
+              () => controller.tab.value == 0 ? invoicesTab() : subscriptionsTab(),
             ),
           ),
         ],

@@ -5,15 +5,20 @@ import '../theme/app_colors.dart';
 import '../theme/app_radius.dart';
 import '../theme/app_text_theme.dart';
 
-/// Standard dialog frame: title bar, scrollable body, action row.
+/// Standard dialog frame: tinted header with an optional icon and subtitle, scrollable body, action row.
 Widget dialogShell(
   BuildContext context, {
   required String title,
   required Widget body,
   required List<Widget> actions,
   double maxWidth = 520,
+  String? subtitle,
+  IconData? icon,
+  Color color = AppColors.primary,
 }) {
   return Dialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+    clipBehavior: Clip.antiAlias,
     child: ConstrainedBox(
       constraints: BoxConstraints(
         maxWidth: maxWidth,
@@ -22,12 +27,28 @@ Widget dialogShell(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 14, 8, 6),
+          Container(
+            color: color.withAlpha(20),
+            padding: const EdgeInsets.fromLTRB(20, 16, 10, 14),
             child: Row(
               children: [
+                if (icon != null) ...[
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(13)),
+                    child: Icon(icon, color: AppColors.white, size: 22),
+                  ),
+                  const SizedBox(width: 12),
+                ],
                 Expanded(
-                  child: Text(title, style: context.appText.sectionHeader),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: context.appText.sectionHeader.copyWith(fontWeight: FontWeight.w800)),
+                      if (subtitle != null) Text(subtitle, style: context.appText.timestamp),
+                    ],
+                  ),
                 ),
                 IconButton(
                   onPressed: Get.back,
@@ -45,7 +66,7 @@ Widget dialogShell(
           ),
           const Divider(height: 1),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(14),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               spacing: 8,

@@ -23,6 +23,8 @@ class SocietiesController extends GetxController {
 
   final RxList<SocietyRow> items = <SocietyRow>[].obs;
   final isLoading = true.obs;
+  // society counts for the summary tiles: all, active, trial, suspended
+  final RxList<int> counts = <int>[0, 0, 0, 0].obs;
   final error = ''.obs;
 
   int get totalPages => (total.value / perPage).ceil().clamp(1, 1 << 30);
@@ -35,6 +37,7 @@ class SocietiesController extends GetxController {
       load();
     });
     load();
+    loadCounts();
   }
 
   @override
@@ -61,6 +64,21 @@ class SocietiesController extends GetxController {
       error.value = e.message;
     } finally {
       isLoading.value = false;
+    }
+  }
+
+  /// One tiny request per status: only the totals are used.
+  Future<void> loadCounts() async {
+    try {
+      final r = await Future.wait([
+        _repo.societies(q: '', status: null, page: 1, pageSize: 1),
+        _repo.societies(q: '', status: 'active', page: 1, pageSize: 1),
+        _repo.societies(q: '', status: 'trial', page: 1, pageSize: 1),
+        _repo.societies(q: '', status: 'suspended', page: 1, pageSize: 1),
+      ]);
+      counts.assignAll([for (final p in r) p.total]);
+    } on ApiException {
+      // the tiles are cosmetic
     }
   }
 
