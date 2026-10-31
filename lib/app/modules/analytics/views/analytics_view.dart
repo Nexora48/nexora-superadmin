@@ -1,3 +1,4 @@
+import 'package:nexora_superadmin/app/core/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 SizedBox(
                   width: 240,
                   child: Obx(
-                    () => DropdownButtonFormField<String>(
+                    () => AppDropdown<String>(
                       initialValue: controller.metric.value,
                       isExpanded: true,
                       decoration: const InputDecoration(
@@ -65,7 +66,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 SizedBox(
                   width: 260,
                   child: Obx(
-                    () => DropdownButtonFormField<String>(
+                    () => AppDropdown<String>(
                       initialValue: controller.societyId.value,
                       isExpanded: true,
                       decoration: const InputDecoration(

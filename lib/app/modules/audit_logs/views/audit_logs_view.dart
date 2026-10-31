@@ -1,3 +1,4 @@
+import 'package:nexora_superadmin/app/core/widgets/app_dropdown.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -159,7 +160,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
               SizedBox(
                 width: 170,
                 child: Obx(
-                  () => DropdownButtonFormField<String>(
+                  () => AppDropdown<String>(
                     initialValue: controller.actorType.value,
                     decoration: const InputDecoration(labelText: 'Who', isDense: true),
                     items: [for (final k in AuditLogsController.actorTypes.keys) DropdownMenuItem(value: k, child: Text(k))],
@@ -170,7 +171,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
               SizedBox(
                 width: 220,
                 child: Obx(
-                  () => DropdownButtonFormField<String>(
+                  () => AppDropdown<String>(
                     initialValue: controller.societyId.value,
                     isExpanded: true,
                     decoration: const InputDecoration(labelText: 'Society', isDense: true),
