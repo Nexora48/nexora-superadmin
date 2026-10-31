@@ -1,3 +1,4 @@
+import 'package:nexora_superadmin/app/core/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -95,7 +96,7 @@ class BillingView extends GetView<BillingController> {
               ),
               const SizedBox(height: 12),
               Obx(
-                () => DropdownButtonFormField<String>(
+                () => AppDropdown<String>(
                   initialValue: p.value,
                   decoration: const InputDecoration(
                     labelText: 'Month',
@@ -313,7 +314,7 @@ class BillingView extends GetView<BillingController> {
             SizedBox(
               width: 170,
               child: Obx(
-                () => DropdownButtonFormField<String>(
+                () => AppDropdown<String>(
                   initialValue: controller.period.value,
                   isDense: true,
                   decoration: const InputDecoration(isDense: true),

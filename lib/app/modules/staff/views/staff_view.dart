@@ -1,3 +1,4 @@
+import 'package:nexora_superadmin/app/core/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -79,7 +80,7 @@ class StaffView extends GetView<StaffController> {
                 ),
               ),
               Obx(
-                () => DropdownButtonFormField<String>(
+                () => AppDropdown<String>(
                   initialValue: controller.inviteRole.value,
                   decoration: const InputDecoration(
                     labelText: 'Role',

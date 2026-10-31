@@ -1,3 +1,4 @@
+import 'package:nexora_superadmin/app/core/widgets/app_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -491,7 +492,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
             children: [
               Text('The plan\'s price is copied into this society\'s subscription and its services are switched on or off to match. Limits start applying straight away; nothing is deleted if the society is already over one.', style: context.appText.timestamp),
               Obx(
-                () => DropdownButtonFormField<String>(
+                () => AppDropdown<String>(
                   initialValue: controller.pickedPlan.value.isEmpty ? null : controller.pickedPlan.value,
                   isExpanded: true,
                   decoration: const InputDecoration(labelText: 'Plan', isDense: true),
