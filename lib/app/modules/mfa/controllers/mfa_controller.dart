@@ -26,7 +26,10 @@ class MfaController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    step = Get.arguments as LoginStep;
+    // A reload on /mfa loses the sign-in step: start again from the sign-in screen
+    final arg = Get.arguments;
+    step = arg is LoginStep ? arg : const LoginStep(mfaRequired: true, setupRequired: false, mfaToken: '');
+    if (arg is! LoginStep) Future.microtask(() => Get.offAllNamed(Routes.login));
   }
 
   @override

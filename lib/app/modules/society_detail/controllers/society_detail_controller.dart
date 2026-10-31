@@ -1,3 +1,4 @@
+import '../../../routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -52,7 +53,13 @@ class SocietyDetailController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    id = Get.arguments as String;
+    // A reload or Back/Forward on /society loses the arguments: go back to the app instead of crashing
+    final arg = Get.arguments;
+    id = arg is String ? arg : '';
+    if (id.isEmpty) {
+      Future.microtask(() => Get.offAllNamed(Routes.mainLayout));
+      return;
+    }
     load();
   }
 
