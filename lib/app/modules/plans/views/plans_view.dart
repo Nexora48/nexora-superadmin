@@ -225,10 +225,13 @@ class PlansView extends GetView<PlansController> {
                           child: LayoutBuilder(builder: (context, c) {
                             final cols = c.maxWidth >= 560 ? 3 : 2;
                             final w = (c.maxWidth - (cols - 1) * 10) / cols;
-                            return Obx(() => Wrap(spacing: 10, runSpacing: 10, children: [
+                            return Obx(() {
+                              // read the selection here, inside the Obx, so every tile redraws when it changes
+                              final selected = controller.selectedFeatures.toList();
+                              return Wrap(spacing: 10, runSpacing: 10, children: [
                                   for (final f in controller.catalogue)
                                     Builder(builder: (_) {
-                                      final on = controller.selectedFeatures.contains(f.key);
+                                      final on = selected.contains(f.key);
                                       return SizedBox(
                                         width: w,
                                         child: InkWell(
@@ -251,7 +254,8 @@ class PlansView extends GetView<PlansController> {
                                         ),
                                       );
                                     }),
-                                ]));
+                                ]);
+                            });
                           }),
                         ),
                         section(
