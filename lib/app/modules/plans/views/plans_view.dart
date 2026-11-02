@@ -38,140 +38,302 @@ class PlansView extends GetView<PlansController> {
           _ => Icons.speed_rounded,
         };
 
-    // a small section title inside a dialog
-    formTitle(IconData icon, String text) => Row(spacing: 8, children: [
-          Icon(icon, size: 18, color: AppColors.primary),
-          Text(text, style: context.appText.sectionHeader.copyWith(fontSize: 14, fontWeight: FontWeight.w800)),
-        ]);
-
     // numbers only (digits and one decimal point) for money fields
     money() => [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))];
+
+    // icon for a service tile
+    IconData serviceIcon(String key) {
+      final k = key.toLowerCase();
+      if (k.contains('visitor')) return Icons.badge_outlined;
+      if (k.contains('pay') || k.contains('bill')) return Icons.account_balance_wallet_outlined;
+      if (k.contains('complaint') || k.contains('help')) return Icons.support_agent_rounded;
+      if (k.contains('communit') || k.contains('notice')) return Icons.campaign_outlined;
+      if (k.contains('amenit')) return Icons.pool_rounded;
+      if (k.contains('daily') || k.contains('staff_help')) return Icons.cleaning_services_outlined;
+      if (k.contains('deliver')) return Icons.local_shipping_outlined;
+      if (k.contains('sos') || k.contains('emerg')) return Icons.emergency_outlined;
+      if (k.contains('poll')) return Icons.poll_outlined;
+      if (k.contains('attend')) return Icons.how_to_reg_outlined;
+      return Icons.extension_outlined;
+    }
+
+    // a white section card with an icon title and an optional trailing widget
+    section(IconData icon, Color color, String title, {String? hint, Widget? trailing, required Widget child}) {
+      return Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceLight,
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: AppColors.dividerLight),
+          boxShadow: [BoxShadow(color: Colors.black.withAlpha(8), blurRadius: 10, offset: const Offset(0, 3))],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 14,
+          children: [
+            Row(spacing: 10, children: [
+              IconTile(icon, color, size: 34),
+              Expanded(
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                  if (hint != null) Text(hint, style: context.appText.timestamp),
+                ]),
+              ),
+              if (trailing != null) trailing,
+            ]),
+            child,
+          ],
+        ),
+      );
+    }
 
     // ── Plan form dialog ────────────────────────────────────────────────────
     formDialog(Plan? p) {
       controller.openForm(p);
+      final color = p == null ? AppColors.primary : planColor(p);
       Get.dialog(
-        dialogShell(
-          context,
-          title: p == null ? 'New plan' : 'Edit plan · ${p.name}',
-          subtitle: 'Price, services and limits a society gets',
-          icon: p == null ? Icons.add_card_rounded : Icons.edit_rounded,
-          color: p == null ? AppColors.primary : planColor(p),
-          maxWidth: 660,
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 14,
-            children: [
-              TextField(
-                controller: controller.nameCtrl,
-                maxLength: 60,
-                textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(labelText: 'Name', counterText: '', prefixIcon: Icon(Icons.workspace_premium_outlined, size: 20)),
-              ),
-              if (p == null)
-                TextField(
-                  controller: controller.keyCtrl,
-                  maxLength: 32,
-                  decoration: const InputDecoration(
-                    labelText: 'Key (cannot be changed later)',
-                    hintText: 'e.g. premium_plus',
-                    counterText: '',
-                    prefixIcon: Icon(Icons.key_rounded, size: 20),
+        Dialog(
+          backgroundColor: AppColors.backgroundLight,
+          insetPadding: const EdgeInsets.all(24),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+          clipBehavior: Clip.antiAlias,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: 720, maxHeight: MediaQuery.of(context).size.height * 0.92),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // ── Gradient header ──────────────────────────────────────────
+                Container(
+                  padding: const EdgeInsets.fromLTRB(24, 20, 12, 20),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [color, Color.lerp(color, Colors.black, 0.28)!]),
                   ),
-                ),
-              Row(
-                spacing: 12,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: controller.rateCtrl,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: money(),
-                      decoration: const InputDecoration(labelText: 'Per flat per month', prefixText: '₹ ', prefixIcon: Icon(Icons.home_work_outlined, size: 20)),
-                    ),
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: controller.flatCtrl,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                      inputFormatters: money(),
-                      decoration: const InputDecoration(labelText: 'Flat fee per month', prefixText: '₹ ', prefixIcon: Icon(Icons.payments_outlined, size: 20)),
-                    ),
-                  ),
-                ],
-              ),
-              formTitle(Icons.extension_outlined, 'Included services'),
-              Obx(
-                () => Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [
-                    for (final c in controller.catalogue)
-                      FilterChip(
-                        label: Text(c.name),
-                        selected: controller.selectedFeatures.contains(c.key),
-                        showCheckmark: true,
-                        onSelected: (v) => controller.toggleFeature(c.key, v),
+                  child: Row(
+                    spacing: 16,
+                    children: [
+                      Container(
+                        width: 52,
+                        height: 52,
+                        decoration: BoxDecoration(color: Colors.white.withAlpha(40), borderRadius: BorderRadius.circular(16), border: Border.all(color: Colors.white.withAlpha(70))),
+                        child: Icon(p == null ? Icons.add_card_rounded : Icons.workspace_premium_rounded, color: AppColors.white, size: 28),
                       ),
-                  ],
+                      Expanded(
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                          Text(p == null ? 'Create a plan' : 'Edit ${p.name}', style: const TextStyle(color: AppColors.white, fontSize: 21, fontWeight: FontWeight.w800)),
+                          Text('Set the price, the services and the limits a society gets', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 13)),
+                        ]),
+                      ),
+                      IconButton(onPressed: Get.back, icon: const Icon(Icons.close_rounded, color: AppColors.white)),
+                    ],
+                  ),
                 ),
-              ),
-              formTitle(Icons.speed_rounded, 'Limits (leave empty for unlimited)'),
-              Wrap(
-                spacing: 12,
-                runSpacing: 12,
-                children: [
-                  for (final e in planLimitLabels.entries)
-                    SizedBox(
-                      width: 190,
-                      child: TextField(
-                        controller: controller.limitCtrls[e.key],
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        decoration: InputDecoration(
-                          labelText: e.value,
-                          prefixIcon: Icon(limitIcon(e.key), size: 19),
-                          helperText: hardLimits.contains(e.key) ? 'blocks at the limit' : 'warns only',
+                // ── Sections ─────────────────────────────────────────────────
+                Flexible(
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 16,
+                      children: [
+                        section(
+                          Icons.badge_outlined,
+                          AppColors.primary,
+                          'Plan details',
+                          child: Column(spacing: 14, children: [
+                            TextField(
+                              controller: controller.nameCtrl,
+                              maxLength: 60,
+                              textCapitalization: TextCapitalization.words,
+                              decoration: const InputDecoration(labelText: 'Name', counterText: '', prefixIcon: Icon(Icons.workspace_premium_outlined, size: 20)),
+                            ),
+                            if (p == null)
+                              TextField(
+                                controller: controller.keyCtrl,
+                                maxLength: 32,
+                                decoration: const InputDecoration(
+                                  labelText: 'Key (cannot be changed later)',
+                                  hintText: 'e.g. premium_plus',
+                                  counterText: '',
+                                  prefixIcon: Icon(Icons.key_rounded, size: 20),
+                                ),
+                              ),
+                          ]),
+                        ),
+                        section(
+                          Icons.sell_outlined,
+                          AppColors.success,
+                          'Pricing',
+                          hint: 'Billed monthly: rate × flats + the flat fee',
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 14, children: [
+                            Row(spacing: 12, children: [
+                              Expanded(
+                                child: TextField(
+                                  controller: controller.rateCtrl,
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: money(),
+                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                                  decoration: const InputDecoration(labelText: 'Per flat per month', prefixText: '₹ ', prefixIcon: Icon(Icons.home_work_outlined, size: 20)),
+                                ),
+                              ),
+                              Expanded(
+                                child: TextField(
+                                  controller: controller.flatCtrl,
+                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                  inputFormatters: money(),
+                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                                  decoration: const InputDecoration(labelText: 'Flat fee per month', prefixText: '₹ ', prefixIcon: Icon(Icons.payments_outlined, size: 20)),
+                                ),
+                              ),
+                            ]),
+                            // live preview of what a 100-flat society pays
+                            AnimatedBuilder(
+                              animation: Listenable.merge([controller.rateCtrl, controller.flatCtrl]),
+                              builder: (_, _) {
+                                final rate = ((double.tryParse(controller.rateCtrl.text) ?? 0) * 100).round();
+                                final fee = ((double.tryParse(controller.flatCtrl.text) ?? 0) * 100).round();
+                                final example = rate * 100 + fee;
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                                  decoration: BoxDecoration(color: AppColors.success.withAlpha(20), borderRadius: BorderRadius.circular(12)),
+                                  child: Row(spacing: 10, children: [
+                                    const Icon(Icons.calculate_outlined, size: 18, color: AppColors.success),
+                                    Expanded(
+                                      child: Text.rich(TextSpan(children: [
+                                        const TextSpan(text: 'A 100-flat society pays '),
+                                        TextSpan(text: '${rupees(example)} / month', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.success)),
+                                      ]), style: const TextStyle(fontSize: 13)),
+                                    ),
+                                  ]),
+                                );
+                              },
+                            ),
+                          ]),
+                        ),
+                        section(
+                          Icons.extension_outlined,
+                          AppColors.purple,
+                          'Included services',
+                          hint: 'Tap to include or remove a service',
+                          trailing: Obx(() => Row(mainAxisSize: MainAxisSize.min, children: [
+                                PillTag('${controller.selectedFeatures.length} of ${controller.catalogue.length}', AppColors.purple),
+                                TextButton(
+                                  onPressed: () => controller.selectedFeatures.assignAll(controller.catalogue.map((c) => c.key)),
+                                  child: const Text('All'),
+                                ),
+                                TextButton(onPressed: controller.selectedFeatures.clear, child: const Text('None')),
+                              ])),
+                          child: LayoutBuilder(builder: (context, c) {
+                            final cols = c.maxWidth >= 560 ? 3 : 2;
+                            final w = (c.maxWidth - (cols - 1) * 10) / cols;
+                            return Obx(() => Wrap(spacing: 10, runSpacing: 10, children: [
+                                  for (final f in controller.catalogue)
+                                    Builder(builder: (_) {
+                                      final on = controller.selectedFeatures.contains(f.key);
+                                      return SizedBox(
+                                        width: w,
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(14),
+                                          onTap: () => controller.toggleFeature(f.key, !on),
+                                          child: AnimatedContainer(
+                                            duration: const Duration(milliseconds: 150),
+                                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                                            decoration: BoxDecoration(
+                                              color: on ? AppColors.purple.withAlpha(18) : AppColors.backgroundLight,
+                                              borderRadius: BorderRadius.circular(14),
+                                              border: Border.all(color: on ? AppColors.purple.withAlpha(140) : Colors.transparent, width: 1.3),
+                                            ),
+                                            child: Row(spacing: 10, children: [
+                                              Icon(serviceIcon(f.key), size: 20, color: on ? AppColors.purple : AppColors.textSecondaryLight),
+                                              Expanded(child: Text(f.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.5, fontWeight: on ? FontWeight.w800 : FontWeight.w600, height: 1.2))),
+                                              Icon(on ? Icons.check_circle_rounded : Icons.circle_outlined, size: 19, color: on ? AppColors.purple : AppColors.textDisabledLight),
+                                            ]),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                ]));
+                          }),
+                        ),
+                        section(
+                          Icons.speed_rounded,
+                          AppColors.orange,
+                          'Limits',
+                          hint: 'Leave a field empty for unlimited · a lock means the limit blocks new records',
+                          child: LayoutBuilder(builder: (context, c) {
+                            final cols = c.maxWidth >= 560 ? 3 : 2;
+                            final w = (c.maxWidth - (cols - 1) * 12) / cols;
+                            return Wrap(spacing: 12, runSpacing: 12, children: [
+                              for (final e in planLimitLabels.entries)
+                                SizedBox(
+                                  width: w,
+                                  child: TextField(
+                                    controller: controller.limitCtrls[e.key],
+                                    keyboardType: TextInputType.number,
+                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                    decoration: InputDecoration(
+                                      labelText: e.value,
+                                      hintText: 'Unlimited',
+                                      prefixIcon: Icon(limitIcon(e.key), size: 19),
+                                      suffixIcon: hardLimits.contains(e.key)
+                                          ? const Tooltip(message: 'Blocks at the limit', child: Icon(Icons.lock_outline_rounded, size: 17, color: AppColors.orange))
+                                          : const Tooltip(message: 'Only warns', child: Icon(Icons.notifications_none_rounded, size: 17, color: AppColors.textSecondaryLight)),
+                                    ),
+                                  ),
+                                ),
+                            ]);
+                          }),
+                        ),
+                        if (p != null && p.societies > 0)
+                          Obx(
+                            () => Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.warningLight,
+                                borderRadius: BorderRadius.circular(16),
+                                border: Border.all(color: AppColors.warning.withAlpha(120)),
+                              ),
+                              child: CheckboxListTile(
+                                controlAffinity: ListTileControlAffinity.leading,
+                                value: controller.applyToSocieties.value,
+                                onChanged: (v) => controller.applyToSocieties.value = v ?? false,
+                                title: Text('Also change the price for the ${p.societies} ${p.societies == 1 ? 'society' : 'societies'} on this plan', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
+                                subtitle: const Text('Otherwise only new assignments get the new price. Limits and services of existing societies follow the plan at their next change.', style: TextStyle(fontSize: 12)),
+                              ),
+                            ),
+                          ),
+                        dialogErrorText(controller.dialogError),
+                      ],
+                    ),
+                  ),
+                ),
+                // ── Footer ───────────────────────────────────────────────────
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+                  decoration: const BoxDecoration(color: AppColors.surfaceLight, border: Border(top: BorderSide(color: AppColors.dividerLight))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    spacing: 10,
+                    children: [
+                      TextButton(onPressed: Get.back, child: const Text('Cancel')),
+                      Obx(
+                        () => FilledButton.icon(
+                          style: FilledButton.styleFrom(backgroundColor: color, padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14)),
+                          onPressed: controller.busy.value
+                              ? null
+                              : () async {
+                                  if (await controller.save(p)) Get.back();
+                                },
+                          icon: controller.busy.value
+                              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white))
+                              : const Icon(Icons.check_rounded, size: 18),
+                          label: Text(p == null ? 'Create plan' : 'Save plan'),
                         ),
                       ),
-                    ),
-                ],
-              ),
-              if (p != null && p.societies > 0)
-                Obx(
-                  () => Container(
-                    decoration: BoxDecoration(color: AppColors.warningLight, borderRadius: BorderRadius.circular(14)),
-                    child: CheckboxListTile(
-                      controlAffinity: ListTileControlAffinity.leading,
-                      value: controller.applyToSocieties.value,
-                      onChanged: (v) => controller.applyToSocieties.value = v ?? false,
-                      title: Text('Also change the price for the ${p.societies} societies on this plan', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
-                      subtitle: const Text(
-                        'Otherwise only new assignments get the new price. Limits and services of existing societies follow the plan at their next change.',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
-              dialogErrorText(controller.dialogError),
-            ],
-          ),
-          actions: [
-            TextButton(onPressed: Get.back, child: const Text('Cancel')),
-            Obx(
-              () => FilledButton.icon(
-                onPressed: controller.busy.value
-                    ? null
-                    : () async {
-                        if (await controller.save(p)) Get.back();
-                      },
-                icon: controller.busy.value
-                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.white))
-                    : const Icon(Icons.check_rounded, size: 18),
-                label: const Text('Save plan'),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       );
     }
