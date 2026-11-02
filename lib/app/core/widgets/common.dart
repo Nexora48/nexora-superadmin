@@ -114,3 +114,19 @@ Widget errorLine(String message) {
     child: Text(message, style: const TextStyle(color: AppColors.error, fontSize: 13, fontWeight: FontWeight.w500)),
   );
 }
+
+/// Icon for a product service, by its key.
+IconData serviceIconFor(String key) {
+  final k = key.toLowerCase();
+  if (k.contains('daily')) return Icons.cleaning_services_outlined;
+  if (k.contains('visitor')) return Icons.badge_outlined;
+  if (k.contains('pay') || k.contains('bill')) return Icons.account_balance_wallet_outlined;
+  if (k.contains('complaint') || k.contains('help')) return Icons.support_agent_rounded;
+  if (k.contains('communit') || k.contains('notice')) return Icons.campaign_outlined;
+  if (k.contains('amenit')) return Icons.pool_rounded;
+  if (k.contains('deliver')) return Icons.local_shipping_outlined;
+  if (k.contains('sos') || k.contains('emerg')) return Icons.emergency_outlined;
+  if (k.contains('poll')) return Icons.poll_outlined;
+  if (k.contains('attend')) return Icons.how_to_reg_outlined;
+  return Icons.extension_outlined;
+}
