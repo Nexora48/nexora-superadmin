@@ -126,6 +126,7 @@ IconData serviceIconFor(String key) {
   if (k.contains('amenit')) return Icons.pool_rounded;
   if (k.contains('deliver')) return Icons.local_shipping_outlined;
   if (k.contains('sos') || k.contains('emerg')) return Icons.emergency_outlined;
+  if (k.contains('park')) return Icons.local_parking_rounded;
   if (k.contains('poll')) return Icons.poll_outlined;
   if (k.contains('attend')) return Icons.how_to_reg_outlined;
   return Icons.extension_outlined;
