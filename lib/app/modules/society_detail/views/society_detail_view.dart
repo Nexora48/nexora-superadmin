@@ -31,7 +31,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(width: 130, child: Text(label, style: context.appText.timestamp)),
-            Expanded(child: Text(value.isEmpty ? '—' : value, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600))),
+            Expanded(child: Text(value.isEmpty ? '—' : value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
           ],
         ),
       );
@@ -88,7 +88,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                     const Icon(Icons.lock_outline_rounded, color: AppColors.orange),
                     const SizedBox(width: 10),
                     Expanded(
-                      child: SelectableText(c.temporaryPassword!, style: const TextStyle(fontFamily: 'monospace', fontSize: 17, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                      child: SelectableText(c.temporaryPassword!, style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 1)),
                     ),
                     FilledButton.tonalIcon(
                       onPressed: () => Clipboard.setData(ClipboardData(text: c.temporaryPassword!)),
@@ -260,7 +260,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                 gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: dim ? [AppColors.error.withAlpha(200), AppColors.error] : [AppColors.primaryLight, AppColors.primary]),
                 boxShadow: [BoxShadow(color: (dim ? AppColors.error : AppColors.primary).withAlpha(80), blurRadius: 14, offset: const Offset(0, 5))],
               ),
-              child: Text(d.name.isEmpty ? '?' : d.name[0].toUpperCase(), style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: AppColors.white)),
+              child: Text(d.name.isEmpty ? '?' : d.name[0].toUpperCase(), style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppColors.white)),
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -268,7 +268,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
               spacing: 6,
               children: [
                 Wrap(spacing: 10, crossAxisAlignment: WrapCrossAlignment.center, children: [
-                  Text(d.name, style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                  Text(d.name, style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                   statusChip(d.status),
                 ]),
                 Wrap(spacing: 14, runSpacing: 4, children: [
@@ -354,7 +354,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                 children: [
                   Row(spacing: 12, children: [
                     IconTile(icon, color),
-                    Expanded(child: Text(value, style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: color, height: 1))),
+                    Expanded(child: Text(value, style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: color, height: 1))),
                   ]),
                   Text(label, style: context.appText.timestamp),
                   if (ratio != null)
@@ -375,7 +375,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   Text(label, style: context.appText.timestamp),
-                  Text(value.isEmpty ? '—' : value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                  Text(value.isEmpty ? '—' : value, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                 ]),
               ),
             ]),
@@ -431,7 +431,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                   spacing: 3,
                   children: [
                     Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
-                      Text(f.name, style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w800)),
+                      Text(f.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                       if (overridden) const PillTag('Overridden', AppColors.orange),
                     ]),
                     Text(
@@ -477,7 +477,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                   const IconTile(Icons.toggle_on_outlined, AppColors.primary, size: 38),
                   Expanded(
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      Text('${d.enabledServices} of ${d.totalServices} services are on', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                      Text('${d.enabledServices} of ${d.totalServices} services are on', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                       Text('Changes apply to the API immediately; apps refresh within 5 minutes.', style: context.appText.timestamp),
                     ]),
                   ),
@@ -550,14 +550,14 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                         shape: BoxShape.circle,
                         gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.primaryLighter, AppColors.primary.withAlpha(70)]),
                       ),
-                      child: Text(a.fullName.isEmpty ? '?' : a.fullName[0].toUpperCase(), style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w800, fontSize: 17)),
+                      child: Text(a.fullName.isEmpty ? '?' : a.fullName[0].toUpperCase(), style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.w600, fontSize: 16)),
                     ),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 4,
                         children: [
-                          Text(a.fullName, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                          Text(a.fullName, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                           Wrap(spacing: 14, runSpacing: 4, children: [
                             MetaItem(Icons.mail_outline_rounded, a.email ?? 'no email'),
                             MetaItem(Icons.phone_outlined, a.phone),
@@ -628,7 +628,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: controller.keepPrice.value,
                   onChanged: (v) => controller.keepPrice.value = v ?? false,
-                  title: const Text('Keep this society\'s current price', style: TextStyle(fontSize: 13)),
+                  title: const Text('Keep this society\'s current price', style: TextStyle(fontSize: 14)),
                 ),
               ),
               dialogErrorText(controller.dialogError),
@@ -653,7 +653,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                               body: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Text('Nothing was removed, but the society cannot add more of these until it is under the limit:', style: TextStyle(fontSize: 13)),
+                                  const Text('Nothing was removed, but the society cannot add more of these until it is under the limit:', style: TextStyle(fontSize: 14)),
                                   const SizedBox(height: 8),
                                   for (final u in r.exceeded) Text('• ${u.name}: ${u.used} of ${u.max}', style: const TextStyle(fontWeight: FontWeight.w600)),
                                 ],
@@ -745,7 +745,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(compact(u.monthTotals[e.key] ?? 0), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+                              Text(compact(u.monthTotals[e.key] ?? 0), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600)),
                               Text(e.value, style: context.appText.timestamp),
                             ],
                           ),
@@ -807,7 +807,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         spacing: 3,
                         children: [
-                          Text(r.summary, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
+                          Text(r.summary, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                           MetaItem(Icons.person_outline_rounded, r.actorName ?? r.actorType),
                         ],
                       ),
@@ -843,7 +843,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                   child: Row(spacing: 10, children: [
                     const Icon(Icons.block_rounded, color: AppColors.error),
                     Expanded(
-                      child: Text('Suspended ${formatDate(d.suspendedAt)}: ${d.suspendedReason ?? ''}', style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w700)),
+                      child: Text('Suspended ${formatDate(d.suspendedAt)}: ${d.suspendedReason ?? ''}', style: const TextStyle(color: AppColors.error, fontWeight: FontWeight.w600)),
                     ),
                   ]),
                 ),
@@ -854,7 +854,7 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
                   decoration: BoxDecoration(color: AppColors.successLight, borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.success.withAlpha(80))),
                   child: Row(spacing: 10, children: [
                     const Icon(Icons.check_circle_rounded, color: AppColors.success),
-                    Expanded(child: Text(controller.notice.value, style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w700))),
+                    Expanded(child: Text(controller.notice.value, style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w600))),
                   ]),
                 ),
               const SizedBox(height: 16),

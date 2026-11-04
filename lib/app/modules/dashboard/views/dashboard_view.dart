@@ -66,7 +66,7 @@ class DashboardView extends GetView<DashboardController> {
           ),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(value, style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+              Text(value, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, height: 1.25), maxLines: 1, overflow: TextOverflow.ellipsis),
               Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
             ]),
           ),
@@ -85,7 +85,7 @@ class DashboardView extends GetView<DashboardController> {
           decoration: BoxDecoration(color: Colors.white.withAlpha(36), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withAlpha(64))),
           child: Row(mainAxisSize: MainAxisSize.min, spacing: 6, children: [
             Icon(icon, size: 15, color: AppColors.white),
-            Text(text, style: const TextStyle(color: AppColors.white, fontSize: 12.5, fontWeight: FontWeight.w700)),
+            Text(text, style: const TextStyle(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w600)),
           ]),
         );
 
@@ -118,8 +118,8 @@ class DashboardView extends GetView<DashboardController> {
                   mainAxisSize: MainAxisSize.min,
                   spacing: 8,
                   children: [
-                    Text('${days[now.weekday - 1]}, ${now.day} ${months[now.month - 1]} ${now.year}', style: TextStyle(color: Colors.white.withAlpha(200), fontSize: 13, fontWeight: FontWeight.w600)),
-                    Text('${greeting()}${first.isEmpty ? '' : ', $first'}', style: const TextStyle(color: AppColors.white, fontSize: 28, fontWeight: FontWeight.w800)),
+                    Text('${days[now.weekday - 1]}, ${now.day} ${months[now.month - 1]} ${now.year}', style: TextStyle(color: Colors.white.withAlpha(200), fontSize: 14, fontWeight: FontWeight.w600)),
+                    Text('${greeting()}${first.isEmpty ? '' : ', $first'}', style: const TextStyle(color: AppColors.white, fontSize: 28, fontWeight: FontWeight.w600)),
                     Text('Here is how Nexora is doing across every society.', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 14)),
                     const SizedBox(height: 4),
                     Wrap(spacing: 8, runSpacing: 8, children: [
@@ -158,7 +158,7 @@ class DashboardView extends GetView<DashboardController> {
       legend(Color c, String label, int n) => Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
             Container(width: 10, height: 10, decoration: BoxDecoration(color: c, shape: BoxShape.circle)),
             Text(label, style: context.appText.timestamp),
-            Text('$n · ${(n * 100 / total).round()}%', style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w800)),
+            Text('$n · ${(n * 100 / total).round()}%', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
           ]);
       return panel(
         icon: Icons.donut_large_rounded,
@@ -222,7 +222,7 @@ class DashboardView extends GetView<DashboardController> {
               IconTile(icon, color),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+                  Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
                   Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
                 ]),
               ),
@@ -250,7 +250,7 @@ class DashboardView extends GetView<DashboardController> {
                         decoration: BoxDecoration(color: AppColors.warningLight, borderRadius: BorderRadius.circular(14)),
                         child: Row(crossAxisAlignment: CrossAxisAlignment.start, spacing: 10, children: [
                           Icon(a.kind == 'limit' ? Icons.speed_rounded : (a.kind == 'invoice' ? Icons.receipt_long_outlined : Icons.mark_email_unread_outlined), size: 18, color: AppColors.orange),
-                          Expanded(child: Text(a.message, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600))),
+                          Expanded(child: Text(a.message, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
                         ]),
                       ),
                   ]),
@@ -276,10 +276,10 @@ class DashboardView extends GetView<DashboardController> {
                           height: 26,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(shape: BoxShape.circle, color: i < 3 ? medal[i] : AppColors.backgroundLight),
-                          child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: i < 3 ? AppColors.white : AppColors.textSecondaryLight)),
+                          child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: i < 3 ? AppColors.white : AppColors.textSecondaryLight)),
                         ),
-                        Expanded(child: Text(r.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700))),
-                        Text('${r.value}', style: const TextStyle(fontWeight: FontWeight.w800)),
+                        Expanded(child: Text(r.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
+                        Text('${r.value}', style: const TextStyle(fontWeight: FontWeight.w600)),
                       ]),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(6),
@@ -301,7 +301,7 @@ class DashboardView extends GetView<DashboardController> {
                     for (final a in o.unused.take(6))
                       Row(spacing: 10, children: [
                         IconTile(serviceIconFor(a.key), AppColors.purple, size: 32),
-                        Expanded(child: Text(a.name, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700))),
+                        Expanded(child: Text(a.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
                         PillTag('${a.unused.length} of ${a.enabled}', AppColors.orange),
                       ]),
                   ]),
@@ -316,7 +316,7 @@ class DashboardView extends GetView<DashboardController> {
             Row(children: [
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('Usage', style: context.appText.sectionHeader.copyWith(fontSize: 18, fontWeight: FontWeight.w800)),
+                  Text('Usage', style: context.appText.sectionHeader.copyWith(fontSize: 16, fontWeight: FontWeight.w600)),
                   Text('How societies use the platform', style: context.appText.timestamp),
                 ]),
               ),
@@ -389,7 +389,7 @@ class DashboardView extends GetView<DashboardController> {
                           child: Padding(
                             padding: const EdgeInsets.only(bottom: 16),
                             child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 4, children: [
-                              Text(r.summary, style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w700)),
+                              Text(r.summary, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                               Wrap(spacing: 14, runSpacing: 4, children: [
                                 if (r.actorName != null) MetaItem(Icons.person_outline_rounded, r.actorName!),
                                 if (r.societyName != null) MetaItem(Icons.apartment_rounded, r.societyName!),

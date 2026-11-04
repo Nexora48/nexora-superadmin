@@ -73,7 +73,7 @@ Widget trendChart(
                   fmt(v.round()),
                   textAlign: TextAlign.right,
                   style: const TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     color: AppColors.textSecondaryLight,
                   ),
                 ),
@@ -95,7 +95,7 @@ Widget trendChart(
                   child: Text(
                     shortDay(pts[i].day),
                     style: const TextStyle(
-                      fontSize: 10,
+                      fontSize: 12,
                       color: AppColors.textSecondaryLight,
                     ),
                   ),
@@ -112,7 +112,7 @@ Widget trendChart(
                   '${shortDay(pts[s.x.round()].day)}\n${fmt(s.y.round())}',
                   const TextStyle(
                     color: AppColors.white,
-                    fontSize: 11,
+                    fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -160,7 +160,7 @@ Widget limitBar(UsageRow u) {
               child: Text(
                 u.name,
                 style: const TextStyle(
-                  fontSize: 13,
+                  fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -169,7 +169,7 @@ Widget limitBar(UsageRow u) {
               '${u.used} / $maxText',
               style: TextStyle(
                 fontSize: 12,
-                fontWeight: FontWeight.w700,
+                fontWeight: FontWeight.w600,
                 color: u.exceeded
                     ? AppColors.error
                     : AppColors.textSecondaryLight,
@@ -181,7 +181,7 @@ Widget limitBar(UsageRow u) {
                 child: Text(
                   'soft',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     color: AppColors.textSecondaryLight,
                   ),
                 ),

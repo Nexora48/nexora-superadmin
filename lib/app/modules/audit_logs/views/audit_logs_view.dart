@@ -47,9 +47,9 @@ class AuditLogsView extends GetView<AuditLogsController> {
           children: [
             Row(spacing: 6, children: [
               Icon(icon, size: 15, color: color),
-              Text(title.toUpperCase(), style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, letterSpacing: 0.6, color: color)),
+              Text(title.toUpperCase(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.6, color: color)),
             ]),
-            SelectableText(text, style: const TextStyle(fontFamily: 'monospace', fontSize: 11.5, height: 1.45)),
+            SelectableText(text, style: const TextStyle(fontFamily: 'monospace', fontSize: 12, height: 1.45)),
           ],
         ),
       );
@@ -66,7 +66,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     Text(k, style: context.appText.timestamp),
-                    SelectableText(v, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                    SelectableText(v, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                   ]),
                 ),
               ]),
@@ -128,7 +128,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 5,
                   children: [
-                    Text(row.summary, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700)),
+                    Text(row.summary, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     Wrap(spacing: 14, runSpacing: 4, children: [
                       MetaItem(Icons.person_outline_rounded, row.actorName ?? actorLabel(row.actorType)),
                       if (row.societyName != null) MetaItem(Icons.apartment_rounded, row.societyName!),
@@ -163,7 +163,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               decoration: BoxDecoration(color: AppColors.primary.withAlpha(22), borderRadius: BorderRadius.circular(10)),
-              child: Text('$page / ${controller.totalPages}', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.primary)),
+              child: Text('$page / ${controller.totalPages}', style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.primary)),
             ),
             IconButton(onPressed: page < controller.totalPages ? () => controller.goToPage(page + 1) : null, icon: const Icon(Icons.chevron_right_rounded)),
           ],
@@ -186,7 +186,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1)),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1)),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
@@ -306,7 +306,7 @@ class AuditLogsView extends GetView<AuditLogsController> {
             children: [
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text('Audit log', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                  Text('Audit log', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                   Text('Who changed what, and when', style: context.appText.timestamp),
                 ]),
               ),

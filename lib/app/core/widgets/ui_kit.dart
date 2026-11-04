@@ -102,7 +102,7 @@ class PillTag extends StatelessWidget {
       decoration: BoxDecoration(color: color.withAlpha(30), borderRadius: AppRadius.pill),
       child: Text(
         text.toUpperCase(),
-        style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.w800, letterSpacing: 0.4),
+        style: TextStyle(color: color, fontSize: 12, fontWeight: FontWeight.w600, letterSpacing: 0.4),
       ),
     );
   }
@@ -142,7 +142,7 @@ class Segmented extends StatelessWidget {
                   child: Text(
                     items[i],
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 14,
                       fontWeight: FontWeight.w600,
                       color: selected == i ? AppColors.white : AppColors.textSecondaryLight,
                     ),

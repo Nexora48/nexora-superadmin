@@ -61,7 +61,7 @@ class MainLayoutView extends GetView<MainLayoutController> {
                   Expanded(
                     child: Text(
                       MainLayoutController.titles[i],
-                      style: TextStyle(fontSize: 14, fontWeight: active ? FontWeight.w800 : FontWeight.w500, color: active ? AppColors.white : muted),
+                      style: TextStyle(fontSize: 14, fontWeight: active ? FontWeight.w600 : FontWeight.w500, color: active ? AppColors.white : muted),
                     ),
                   ),
                   if (active) const Icon(Icons.chevron_right_rounded, size: 18, color: AppColors.white),
@@ -94,7 +94,7 @@ class MainLayoutView extends GetView<MainLayoutController> {
                   borderRadius: BorderRadius.circular(12),
                   gradient: const LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [AppColors.primaryLight, AppColors.primary]),
                 ),
-                child: Text(u?.initials ?? '?', style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w800, fontSize: 13)),
+                child: Text(u?.initials ?? '?', style: const TextStyle(color: AppColors.white, fontWeight: FontWeight.w600, fontSize: 14)),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -102,9 +102,9 @@ class MainLayoutView extends GetView<MainLayoutController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(u?.fullName ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: AppColors.white, fontSize: 13, fontWeight: FontWeight.w700)),
+                        style: const TextStyle(color: AppColors.white, fontSize: 14, fontWeight: FontWeight.w600)),
                     Text(u?.roleLabel ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(color: Color(0xFFB6C6E3), fontSize: 11)),
+                        style: const TextStyle(color: Color(0xFFB6C6E3), fontSize: 12)),
                   ],
                 ),
               ),
@@ -148,12 +148,12 @@ class MainLayoutView extends GetView<MainLayoutController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Nexora', style: TextStyle(color: AppColors.white, fontSize: 19, fontWeight: FontWeight.w800)),
+                    const Text('Nexora', style: TextStyle(color: AppColors.white, fontSize: 20, fontWeight: FontWeight.w600)),
                     Container(
                       margin: const EdgeInsets.only(top: 3),
                       padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
                       decoration: BoxDecoration(color: const Color(0x26FFFFFF), borderRadius: BorderRadius.circular(6)),
-                      child: const Text('SUPERADMIN', style: TextStyle(color: Color(0xFFD5E2FA), fontSize: 9, letterSpacing: 1.3, fontWeight: FontWeight.w800)),
+                      child: const Text('SUPERADMIN', style: TextStyle(color: Color(0xFFD5E2FA), fontSize: 12, letterSpacing: 1.3, fontWeight: FontWeight.w600)),
                     ),
                   ],
                 ),
@@ -162,7 +162,7 @@ class MainLayoutView extends GetView<MainLayoutController> {
             const SizedBox(height: 26),
             const Padding(
               padding: EdgeInsets.only(left: 6, bottom: 8),
-              child: Text('PLATFORM', style: TextStyle(color: Color(0xFF7F95BD), fontSize: 10, letterSpacing: 1.4, fontWeight: FontWeight.w800)),
+              child: Text('PLATFORM', style: TextStyle(color: Color(0xFF7F95BD), fontSize: 12, letterSpacing: 1.4, fontWeight: FontWeight.w600)),
             ),
             Expanded(
               child: ListView(

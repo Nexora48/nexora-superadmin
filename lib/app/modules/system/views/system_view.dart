@@ -31,7 +31,7 @@ class SystemView extends GetView<SystemController> {
           decoration: BoxDecoration(color: Colors.white.withAlpha(38), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white.withAlpha(70))),
           child: Row(mainAxisSize: MainAxisSize.min, spacing: 6, children: [
             Icon(icon, size: 15, color: AppColors.white),
-            Text(text, style: const TextStyle(color: AppColors.white, fontSize: 12.5, fontWeight: FontWeight.w700)),
+            Text(text, style: const TextStyle(color: AppColors.white, fontSize: 12, fontWeight: FontWeight.w600)),
           ]),
         );
 
@@ -53,7 +53,7 @@ class SystemView extends GetView<SystemController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4,
                   children: [
-                    Text(c.name, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14.5)),
+                    Text(c.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                     Text(c.detail, style: context.appText.timestamp.copyWith(height: 1.4)),
                   ],
                 ),
@@ -94,7 +94,7 @@ class SystemView extends GetView<SystemController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 10,
                     children: [
-                      Text(title, style: const TextStyle(color: AppColors.white, fontSize: 22, fontWeight: FontWeight.w800)),
+                      Text(title, style: const TextStyle(color: AppColors.white, fontSize: 20, fontWeight: FontWeight.w600)),
                       Wrap(spacing: 8, runSpacing: 8, children: [
                         heroChip(Icons.dns_outlined, 'API ${h.version}${h.commit.isEmpty ? '' : ' · ${h.commit}'}'),
                         heroChip(Icons.timer_outlined, 'Up ${controller.uptime(h.uptimeSeconds)}'),
@@ -137,7 +137,7 @@ class SystemView extends GetView<SystemController> {
                         decoration: BoxDecoration(color: AppColors.backgroundLight, borderRadius: BorderRadius.circular(12)),
                         child: Row(mainAxisSize: MainAxisSize.min, spacing: 8, children: [
                           const Icon(Icons.check_circle_outline_rounded, size: 16, color: AppColors.success),
-                          Text(s.name, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w700)),
+                          Text(s.name, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                           Text(timeAgo(s.at), style: context.appText.timestamp),
                         ]),
                       ),
@@ -227,7 +227,7 @@ class SystemView extends GetView<SystemController> {
               Expanded(
                 flex: 2,
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 4, children: [
-                  Text(v.label, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14.5)),
+                  Text(v.label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                   Text(v.message.isEmpty ? 'No message set' : v.message, maxLines: 1, overflow: TextOverflow.ellipsis, style: context.appText.timestamp),
                 ]),
               ),
@@ -313,7 +313,7 @@ class SystemView extends GetView<SystemController> {
                 ]),
               ),
               Obx(() => Column(crossAxisAlignment: CrossAxisAlignment.end, children: [
-                    Text('${controller.retentionDays.value}', style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: AppColors.purple, height: 1)),
+                    Text('${controller.retentionDays.value}', style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: AppColors.purple, height: 1)),
                     Text('days kept', style: context.appText.timestamp),
                   ])),
               if (canEdit) FilledButton.tonalIcon(onPressed: retentionDialog, icon: const Icon(Icons.edit_outlined, size: 17), label: const Text('Change')),
@@ -333,7 +333,7 @@ class SystemView extends GetView<SystemController> {
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
-            Text('System', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+            Text('System', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
             Text('Health of the platform, app versions and data retention', style: context.appText.timestamp),
             const SizedBox(height: 16),
             noticeBar(controller.notice),

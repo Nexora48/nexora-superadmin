@@ -24,7 +24,7 @@ class LoginView extends GetView<LoginController> {
             child: const Icon(Icons.shield_rounded, color: AppColors.white, size: 30),
           ),
           const SizedBox(height: 14),
-          Text('Nexora SuperAdmin', style: context.appText.sectionHeader.copyWith(fontSize: 22)),
+          Text('Nexora SuperAdmin', style: context.appText.sectionHeader.copyWith(fontSize: 20)),
           const SizedBox(height: 4),
           Text('Internal console · authorised staff only', style: context.appText.timestamp),
         ],

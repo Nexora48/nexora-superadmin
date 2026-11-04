@@ -26,10 +26,10 @@ class SocietyCreateView extends GetView<SocietyCreateController> {
                   backgroundColor: i <= controller.step.value ? AppColors.primary : AppColors.dividerLight,
                   child: i < controller.step.value
                       ? const Icon(Icons.check_rounded, size: 15, color: AppColors.white)
-                      : Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: i <= controller.step.value ? AppColors.white : AppColors.textSecondaryLight)),
+                      : Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: i <= controller.step.value ? AppColors.white : AppColors.textSecondaryLight)),
                 ),
                 const SizedBox(width: 8),
-                Text(labels[i], style: TextStyle(fontSize: 13, fontWeight: i == controller.step.value ? FontWeight.w700 : FontWeight.w500)),
+                Text(labels[i], style: TextStyle(fontSize: 14, fontWeight: i == controller.step.value ? FontWeight.w600 : FontWeight.w500)),
                 if (i < labels.length - 1) const Expanded(child: Divider(indent: 10, endIndent: 10)),
               ],
             ],
@@ -115,7 +115,7 @@ class SocietyCreateView extends GetView<SocietyCreateController> {
                     child: Row(children: [
                       Expanded(
                         child: SelectableText(c.temporaryPassword!,
-                            style: const TextStyle(fontFamily: 'monospace', fontSize: 17, fontWeight: FontWeight.w800, letterSpacing: 1)),
+                            style: const TextStyle(fontFamily: 'monospace', fontSize: 16, fontWeight: FontWeight.w600, letterSpacing: 1)),
                       ),
                       IconButton(
                         tooltip: 'Copy',

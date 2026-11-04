@@ -235,7 +235,7 @@ class BillingView extends GetView<BillingController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4,
                   children: [
-                    Text('${i.society} · ${periodLabel(i.period)}', style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                    Text('${i.society} · ${periodLabel(i.period)}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     Wrap(spacing: 14, runSpacing: 4, children: [
                       MetaItem(Icons.tag_rounded, i.number),
                       MetaItem(Icons.meeting_room_outlined, '${i.units} flats'),
@@ -245,7 +245,7 @@ class BillingView extends GetView<BillingController> {
                   ],
                 ),
               ),
-              Text(rupees(i.amountPaise), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
+              Text(rupees(i.amountPaise), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
               PillTag(label, color),
               if (canEdit && !i.paid)
                 FilledButton.tonalIcon(
@@ -344,7 +344,7 @@ class BillingView extends GetView<BillingController> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(color: AppColors.primary.withAlpha(22), borderRadius: BorderRadius.circular(10)),
-                child: Text('$page / ${controller.pages}', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.primary)),
+                child: Text('$page / ${controller.pages}', style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.primary)),
               ),
               IconButton(
                 onPressed: page < controller.pages
@@ -378,7 +378,7 @@ class BillingView extends GetView<BillingController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4,
                   children: [
-                    Text(s.name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                    Text(s.name, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     Wrap(spacing: 14, runSpacing: 4, children: [
                       MetaItem(Icons.meeting_room_outlined, '${s.flats} flats'),
                       if (unset)
@@ -395,7 +395,7 @@ class BillingView extends GetView<BillingController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(rupees(sub.nextAmountPaise), style: const TextStyle(fontSize: 17, fontWeight: FontWeight.w800)),
+                    Text(rupees(sub.nextAmountPaise), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                     Text('a month', style: context.appText.timestamp),
                   ],
                 ),
@@ -447,7 +447,7 @@ class BillingView extends GetView<BillingController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
@@ -487,7 +487,7 @@ class BillingView extends GetView<BillingController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Billing', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                    Text('Billing', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('What Nexora charges each society. Payments are recorded here after a bank transfer.', style: context.appText.timestamp),
                   ],
                 ),
@@ -518,7 +518,7 @@ class BillingView extends GetView<BillingController> {
                       children: [
                         const Icon(Icons.check_circle_rounded, color: AppColors.success, size: 18),
                         const SizedBox(width: 8),
-                        Expanded(child: Text(controller.notice.value, style: const TextStyle(fontWeight: FontWeight.w700))),
+                        Expanded(child: Text(controller.notice.value, style: const TextStyle(fontWeight: FontWeight.w600))),
                       ],
                     ),
                   ),

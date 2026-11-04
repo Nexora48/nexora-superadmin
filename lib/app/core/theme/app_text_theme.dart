@@ -1,7 +1,48 @@
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 
-const String? _fontFamily = null;
+/// Inter is bundled in assets/fonts (see pubspec.yaml).
+const String _fontFamily = 'Inter';
+
+/// Dashboard type scale (CSS-pixel guideline): size / weight / line height.
+///
+/// | Element            | Size  | Weight | Line height |
+/// |--------------------|-------|--------|-------------|
+/// | Page title         | 28    | 600    | 36          |
+/// | Section heading    | 20    | 600    | 28          |
+/// | Card heading       | 16    | 600    | 24          |
+/// | Body / table cell  | 14    | 400    | 20          |
+/// | Table header       | 12    | 600    | 16          |
+/// | Form label / button| 14    | 500    | 20          |
+/// | Input text         | 14-16 | 400    | 22          |
+/// | Helper text        | 12    | 400    | 16          |
+/// | Badge / status     | 12    | 500    | 16          |
+/// | KPI value          | 28-36 | 600    | 36-44       |
+/// | Sidebar menu       | 14    | 500    | 20          |
+abstract class AppType {
+  static TextStyle _s(double size, FontWeight w, double lineHeight, [Color? color]) => TextStyle(
+        fontFamily: _fontFamily,
+        fontSize: size,
+        fontWeight: w,
+        height: lineHeight / size,
+        color: color,
+      );
+
+  static TextStyle pageTitle([Color? c]) => _s(28, FontWeight.w600, 36, c);
+  static TextStyle sectionHeading([Color? c]) => _s(20, FontWeight.w600, 28, c);
+  static TextStyle cardHeading([Color? c]) => _s(16, FontWeight.w600, 24, c);
+  static TextStyle body([Color? c]) => _s(14, FontWeight.w400, 20, c);
+  static TextStyle bodyLarge([Color? c]) => _s(16, FontWeight.w400, 24, c);
+  static TextStyle tableHeader([Color? c]) => _s(12, FontWeight.w600, 16, c);
+  static TextStyle tableCell([Color? c]) => _s(14, FontWeight.w400, 20, c);
+  static TextStyle formLabel([Color? c]) => _s(14, FontWeight.w500, 20, c);
+  static TextStyle input([Color? c]) => _s(14, FontWeight.w400, 22, c);
+  static TextStyle button([Color? c]) => _s(14, FontWeight.w500, 20, c);
+  static TextStyle helper([Color? c]) => _s(12, FontWeight.w400, 16, c);
+  static TextStyle badge([Color? c]) => _s(12, FontWeight.w500, 16, c);
+  static TextStyle kpi([Color? c]) => _s(32, FontWeight.w600, 40, c);
+  static TextStyle sidebar([Color? c]) => _s(14, FontWeight.w500, 20, c);
+}
 
 abstract class AppTextTheme {
   static TextTheme get light => _build(
@@ -22,120 +63,21 @@ abstract class AppTextTheme {
     required Color disabled,
   }) {
     return TextTheme(
-      displayLarge: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 57,
-        fontWeight: FontWeight.w400,
-        letterSpacing: -0.25,
-        color: primary,
-        height: 1.12,
-      ),
-      displayMedium: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 45,
-        fontWeight: FontWeight.w400,
-        color: primary,
-        height: 1.16,
-      ),
-      displaySmall: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 36,
-        fontWeight: FontWeight.w400,
-        color: primary,
-        height: 1.22,
-      ),
-      headlineLarge: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 32,
-        fontWeight: FontWeight.w700,
-        color: primary,
-        height: 1.25,
-      ),
-      headlineMedium: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 28,
-        fontWeight: FontWeight.w700,
-        color: primary,
-        height: 1.29,
-      ),
-      headlineSmall: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 24,
-        fontWeight: FontWeight.w700,
-        color: primary,
-        height: 1.33,
-      ),
-      titleLarge: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 20,
-        fontWeight: FontWeight.w700,
-        color: primary,
-        height: 1.27,
-      ),
-      titleMedium: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.15,
-        color: primary,
-        height: 1.50,
-      ),
-      titleSmall: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.1,
-        color: primary,
-        height: 1.43,
-      ),
-      bodyLarge: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 16,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.15,
-        color: primary,
-        height: 1.50,
-      ),
-      bodyMedium: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.25,
-        color: primary,
-        height: 1.43,
-      ),
-      bodySmall: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        letterSpacing: 0.4,
-        color: secondary,
-        height: 1.33,
-      ),
-      labelLarge: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 14,
-        fontWeight: FontWeight.w600,
-        letterSpacing: 0.1,
-        color: primary,
-        height: 1.43,
-      ),
-      labelMedium: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 12,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
-        color: secondary,
-        height: 1.33,
-      ),
-      labelSmall: TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 11,
-        fontWeight: FontWeight.w500,
-        letterSpacing: 0.5,
-        color: disabled,
-        height: 1.45,
-      ),
+      displayLarge: AppType.kpi(primary).copyWith(fontSize: 36, height: 44 / 36),
+      displayMedium: AppType.kpi(primary),
+      displaySmall: AppType.kpi(primary).copyWith(fontSize: 28, height: 36 / 28),
+      headlineLarge: AppType.pageTitle(primary),
+      headlineMedium: AppType.sectionHeading(primary),
+      headlineSmall: AppType.sectionHeading(primary),
+      titleLarge: AppType.sectionHeading(primary),
+      titleMedium: AppType.cardHeading(primary),
+      titleSmall: AppType.formLabel(primary),
+      bodyLarge: AppType.bodyLarge(primary),
+      bodyMedium: AppType.body(primary),
+      bodySmall: AppType.helper(secondary),
+      labelLarge: AppType.button(primary),
+      labelMedium: AppType.badge(secondary),
+      labelSmall: AppType.tableHeader(disabled),
     );
   }
 }
@@ -153,82 +95,31 @@ class AppTextStyles {
   Color get _placeholder =>
       _isDark ? AppColors.textPlaceholderDark : AppColors.textPlaceholderLight;
 
-  TextStyle get appBarTitle => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 20,
-        fontWeight: FontWeight.w800,
-        color: AppColors.primary,
-      );
+  // Guideline styles
+  TextStyle get pageTitle => AppType.pageTitle(_primary);
+  TextStyle get sectionHeading => AppType.sectionHeading(_primary);
+  TextStyle get cardHeading => AppType.cardHeading(_primary);
+  TextStyle get body => AppType.body(_secondary);
+  TextStyle get tableHeader => AppType.tableHeader(_secondary);
+  TextStyle get tableCell => AppType.tableCell(_primary);
+  TextStyle get formLabel => AppType.formLabel(_primary);
+  TextStyle get helper => AppType.helper(_secondary);
+  TextStyle get kpiValue => AppType.kpi(_primary);
+  TextStyle get sidebarItem => AppType.sidebar(_primary);
 
-  TextStyle get sectionHeader => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 17,
-        fontWeight: FontWeight.w700,
-        color: _primary,
-      );
+  // Existing names, mapped onto the scale
+  TextStyle get appBarTitle => AppType.sectionHeading(AppColors.primary);
+  TextStyle get sectionHeader => AppType.cardHeading(_primary);
+  TextStyle get userName => AppType.formLabel(_primary);
+  TextStyle get postBody => AppType.body(_secondary);
+  TextStyle get actionLabel => AppType.button(_primary);
+  TextStyle get inputHint => AppType.input(_placeholder);
+  TextStyle get inputText => AppType.input(_primary);
+  TextStyle get timestamp => AppType.helper(_secondary);
 
-  TextStyle get userName => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 15,
-        fontWeight: FontWeight.w600,
-        color: _primary,
-      );
-
-  TextStyle get postBody => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
-        color: _secondary,
-      );
-
-  TextStyle get actionLabel => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 13,
-        fontWeight: FontWeight.w500,
-        color: _primary,
-      );
-
-  TextStyle get inputHint => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 15,
-        fontWeight: FontWeight.w400,
-        color: _placeholder,
-      );
-
-  TextStyle get inputText => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 15,
-        fontWeight: FontWeight.w400,
-        color: _primary,
-      );
-
-  TextStyle get timestamp => TextStyle(
-        fontFamily: _fontFamily,
-        fontSize: 12,
-        fontWeight: FontWeight.w400,
-        color: _secondary,
-      );
-
-  static const TextStyle buttonLabel = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 15,
-    fontWeight: FontWeight.w700,
-    color: AppColors.white,
-  );
-
-  static const TextStyle badge = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 11,
-    fontWeight: FontWeight.w700,
-    color: AppColors.white,
-  );
-
-  static const TextStyle cardLabel = TextStyle(
-    fontFamily: _fontFamily,
-    fontSize: 15,
-    fontWeight: FontWeight.w600,
-    color: AppColors.cardOnGradient,
-  );
+  static TextStyle get buttonLabel => AppType.button(AppColors.white);
+  static TextStyle get badge => AppType.badge(AppColors.white);
+  static TextStyle get cardLabel => AppType.cardHeading(AppColors.cardOnGradient);
 }
 
 extension AppTextThemeExtension on BuildContext {

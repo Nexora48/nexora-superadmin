@@ -51,7 +51,7 @@ class ServicesView extends GetView<ServicesController> {
               crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 4,
               children: [
-                Text(row.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800)),
+                Text(row.name, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
                 Text(row.description.isEmpty ? 'No description' : row.description, maxLines: 3, overflow: TextOverflow.ellipsis, style: context.appText.timestamp.copyWith(height: 1.4)),
               ],
             ),
@@ -60,7 +60,7 @@ class ServicesView extends GetView<ServicesController> {
               decoration: BoxDecoration(color: AppColors.backgroundLight, borderRadius: BorderRadius.circular(10)),
               child: Row(mainAxisSize: MainAxisSize.min, spacing: 6, children: [
                 const Icon(Icons.code_rounded, size: 14, color: AppColors.textSecondaryLight),
-                Text(row.key, style: const TextStyle(fontFamily: 'monospace', fontSize: 12, fontWeight: FontWeight.w700, color: AppColors.textSecondaryLight)),
+                Text(row.key, style: const TextStyle(fontFamily: 'monospace', fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondaryLight)),
               ]),
             ),
           ],
@@ -83,7 +83,7 @@ class ServicesView extends GetView<ServicesController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1)),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1)),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
@@ -107,7 +107,7 @@ class ServicesView extends GetView<ServicesController> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Services', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+          Text('Services', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
           Text(
             'Every product capability societies can use. Switch them per society from a society\'s Services tab. New services ship with a release.',
             style: context.appText.timestamp,

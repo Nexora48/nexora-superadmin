@@ -43,9 +43,9 @@ class AnalyticsView extends GetView<AnalyticsController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
-                if (note != null) Text(note, style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700), maxLines: 1, overflow: TextOverflow.ellipsis),
+                if (note != null) Text(note, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600), maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
           ]),
@@ -145,7 +145,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                 children: [
                   Obx(() => Text(
                         '${controller.metricName(controller.metric.value)} · last ${controller.range.value} days',
-                        style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
+                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       )),
                   const SizedBox(height: 8),
                   Obx(
@@ -199,10 +199,10 @@ class AnalyticsView extends GetView<AnalyticsController> {
                           shape: BoxShape.circle,
                           color: i < 3 ? medal[i] : AppColors.backgroundLight,
                         ),
-                        child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: i < 3 ? AppColors.white : AppColors.textSecondaryLight)),
+                        child: Text('${i + 1}', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: i < 3 ? AppColors.white : AppColors.textSecondaryLight)),
                       ),
-                      Expanded(child: Text(r.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5))),
-                      Text(fmt(r.value), style: const TextStyle(fontWeight: FontWeight.w800)),
+                      Expanded(child: Text(r.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14))),
+                      Text(fmt(r.value), style: const TextStyle(fontWeight: FontWeight.w600)),
                     ]),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(6),
@@ -245,7 +245,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                     const IconTile(Icons.apartment_rounded, AppColors.primary, size: 38),
                     Expanded(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 3, children: [
-                        Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800)),
+                        Text(s.name, style: const TextStyle(fontWeight: FontWeight.w600)),
                         Wrap(spacing: 12, children: [
                           if (s.city.isNotEmpty) MetaItem(Icons.place_outlined, s.city),
                           MetaItem(Icons.meeting_room_outlined, '${s.units} flats'),
@@ -289,7 +289,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                       Expanded(
                         flex: 3,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 4, children: [
-                          Text(a.name, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14)),
+                          Text(a.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                           Wrap(spacing: 14, children: [
                             MetaItem(Icons.toggle_on_outlined, '${a.enabled} enabled'),
                             MetaItem(Icons.bolt_rounded, '${a.used} used'),
@@ -310,7 +310,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 42, child: Text('${a.adoptionPc}%', textAlign: TextAlign.right, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800))),
+                          SizedBox(width: 42, child: Text('${a.adoptionPc}%', textAlign: TextAlign.right, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600))),
                         ]),
                       ),
                       SizedBox(
@@ -361,7 +361,7 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Analytics', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                    Text('Analytics', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('How societies use the platform', style: context.appText.timestamp),
                   ],
                 ),

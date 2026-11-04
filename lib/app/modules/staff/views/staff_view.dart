@@ -35,7 +35,7 @@ class StaffView extends GetView<StaffController> {
                 r.emailed
                     ? 'An invitation e-mail was sent to ${r.user.email}. Keep this link in case the e-mail does not arrive. It is not shown again.'
                     : 'No e-mail was sent (the mail server is not configured). Send this link to the new staff member yourself. It is not shown again.',
-                style: const TextStyle(fontSize: 13.5, height: 1.4),
+                style: const TextStyle(fontSize: 14, height: 1.4),
               ),
               Container(
                 padding: const EdgeInsets.all(14),
@@ -169,7 +169,7 @@ class StaffView extends GetView<StaffController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1)),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1)),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
@@ -219,7 +219,7 @@ class StaffView extends GetView<StaffController> {
                   shape: BoxShape.circle,
                   gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [roleColor.withAlpha(60), roleColor.withAlpha(140)]),
                 ),
-                child: Text(m.fullName.isEmpty ? '?' : m.fullName[0].toUpperCase(), style: TextStyle(color: roleColor, fontWeight: FontWeight.w800, fontSize: 18)),
+                child: Text(m.fullName.isEmpty ? '?' : m.fullName[0].toUpperCase(), style: TextStyle(color: roleColor, fontWeight: FontWeight.w600, fontSize: 16)),
               ),
               Expanded(
                 flex: 3,
@@ -228,7 +228,7 @@ class StaffView extends GetView<StaffController> {
                   spacing: 4,
                   children: [
                     Wrap(spacing: 8, crossAxisAlignment: WrapCrossAlignment.center, children: [
-                      Text(m.fullName, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
+                      Text(m.fullName, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                       if (me) const PillTag('You', AppColors.primary),
                     ]),
                     Wrap(spacing: 14, runSpacing: 4, children: [
@@ -338,7 +338,7 @@ class StaffView extends GetView<StaffController> {
               ),
               Row(spacing: 8, children: [
                 const Icon(Icons.groups_2_outlined, size: 18, color: AppColors.primary),
-                Text('Who receives it', style: context.appText.sectionHeader.copyWith(fontSize: 14, fontWeight: FontWeight.w800)),
+                Text('Who receives it', style: context.appText.sectionHeader.copyWith(fontSize: 14, fontWeight: FontWeight.w600)),
               ]),
               Obx(
                 () => Segmented(
@@ -394,7 +394,7 @@ class StaffView extends GetView<StaffController> {
                       controller.includeResidents.value = v ?? false;
                       controller.previewCount.value = -1;
                     },
-                    title: const Text('Also send to committee members and residents', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700)),
+                    title: const Text('Also send to committee members and residents', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     subtitle: const Text('By default only society admins receive it.', style: TextStyle(fontSize: 12)),
                   ),
                 ),
@@ -447,7 +447,7 @@ class StaffView extends GetView<StaffController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 5,
                   children: [
-                    Text(b.title, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15)),
+                    Text(b.title, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                     Text(b.body, maxLines: 2, overflow: TextOverflow.ellipsis, style: context.appText.timestamp.copyWith(height: 1.4)),
                     Wrap(spacing: 14, runSpacing: 4, children: [
                       MetaItem(Icons.groups_2_outlined, '${b.audienceLabel}${b.includeResidents ? ' + residents' : ''}'),
@@ -494,7 +494,7 @@ class StaffView extends GetView<StaffController> {
               children: [
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text('Staff & broadcast', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                    Text('Staff & broadcast', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('The Nexora team and the notices sent to societies', style: context.appText.timestamp),
                   ]),
                 ),
