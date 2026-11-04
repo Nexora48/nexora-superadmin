@@ -49,7 +49,7 @@ Widget statusChip(String status) {
       children: [
         Container(width: 7, height: 7, decoration: BoxDecoration(color: color, shape: BoxShape.circle)),
         const SizedBox(width: 6),
-        Text(label, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: color)),
+        Text(label, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
       ],
     ),
   );
@@ -111,7 +111,7 @@ Widget errorLine(String message) {
   if (message.isEmpty) return const SizedBox.shrink();
   return Padding(
     padding: const EdgeInsets.only(top: 10),
-    child: Text(message, style: const TextStyle(color: AppColors.error, fontSize: 13, fontWeight: FontWeight.w500)),
+    child: Text(message, style: const TextStyle(color: AppColors.error, fontSize: 14, fontWeight: FontWeight.w500)),
   );
 }
 

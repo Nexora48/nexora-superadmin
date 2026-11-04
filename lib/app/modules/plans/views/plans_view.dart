@@ -76,7 +76,7 @@ class PlansView extends GetView<PlansController> {
               IconTile(icon, color, size: 34),
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                  Text(title, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                  Text(title, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                   if (hint != null) Text(hint, style: context.appText.timestamp),
                 ]),
               ),
@@ -120,8 +120,8 @@ class PlansView extends GetView<PlansController> {
                       ),
                       Expanded(
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Text(p == null ? 'Create a plan' : 'Edit ${p.name}', style: const TextStyle(color: AppColors.white, fontSize: 21, fontWeight: FontWeight.w800)),
-                          Text('Set the price, the services and the limits a society gets', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 13)),
+                          Text(p == null ? 'Create a plan' : 'Edit ${p.name}', style: const TextStyle(color: AppColors.white, fontSize: 20, fontWeight: FontWeight.w600)),
+                          Text('Set the price, the services and the limits a society gets', style: TextStyle(color: Colors.white.withAlpha(210), fontSize: 14)),
                         ]),
                       ),
                       IconButton(onPressed: Get.back, icon: const Icon(Icons.close_rounded, color: AppColors.white)),
@@ -172,7 +172,7 @@ class PlansView extends GetView<PlansController> {
                                   controller: controller.rateCtrl,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: money(),
-                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                   decoration: const InputDecoration(labelText: 'Per flat per month', prefixText: '₹ ', prefixIcon: Icon(Icons.home_work_outlined, size: 20)),
                                 ),
                               ),
@@ -181,7 +181,7 @@ class PlansView extends GetView<PlansController> {
                                   controller: controller.flatCtrl,
                                   keyboardType: const TextInputType.numberWithOptions(decimal: true),
                                   inputFormatters: money(),
-                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w800),
+                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
                                   decoration: const InputDecoration(labelText: 'Flat fee per month', prefixText: '₹ ', prefixIcon: Icon(Icons.payments_outlined, size: 20)),
                                 ),
                               ),
@@ -201,8 +201,8 @@ class PlansView extends GetView<PlansController> {
                                     Expanded(
                                       child: Text.rich(TextSpan(children: [
                                         const TextSpan(text: 'A 100-flat society pays '),
-                                        TextSpan(text: '${rupees(example)} / month', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.success)),
-                                      ]), style: const TextStyle(fontSize: 13)),
+                                        TextSpan(text: '${rupees(example)} / month', style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.success)),
+                                      ]), style: const TextStyle(fontSize: 14)),
                                     ),
                                   ]),
                                 );
@@ -248,7 +248,7 @@ class PlansView extends GetView<PlansController> {
                                             ),
                                             child: Row(spacing: 10, children: [
                                               Icon(serviceIcon(f.key), size: 20, color: on ? AppColors.purple : AppColors.textSecondaryLight),
-                                              Expanded(child: Text(f.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12.5, fontWeight: on ? FontWeight.w800 : FontWeight.w600, height: 1.2))),
+                                              Expanded(child: Text(f.name, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, fontWeight: on ? FontWeight.w600 : FontWeight.w600, height: 1.2))),
                                               Icon(on ? Icons.check_circle_rounded : Icons.circle_outlined, size: 19, color: on ? AppColors.purple : AppColors.textDisabledLight),
                                             ]),
                                           ),
@@ -300,7 +300,7 @@ class PlansView extends GetView<PlansController> {
                                 controlAffinity: ListTileControlAffinity.leading,
                                 value: controller.applyToSocieties.value,
                                 onChanged: (v) => controller.applyToSocieties.value = v ?? false,
-                                title: Text('Also change the price for the ${p.societies} ${p.societies == 1 ? 'society' : 'societies'} on this plan', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w800)),
+                                title: Text('Also change the price for the ${p.societies} ${p.societies == 1 ? 'society' : 'societies'} on this plan', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                                 subtitle: const Text('Otherwise only new assignments get the new price. Limits and services of existing societies follow the plan at their next change.', style: TextStyle(fontSize: 12)),
                               ),
                             ),
@@ -374,7 +374,7 @@ class PlansView extends GetView<PlansController> {
                         IconTile(Icons.apartment_rounded, planColor(p), size: 38),
                         Expanded(
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 3, children: [
-                            Text(s.name, style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 14)),
+                            Text(s.name, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
                             Wrap(spacing: 12, children: [
                               if (s.city.isNotEmpty) MetaItem(Icons.place_outlined, s.city),
                               MetaItem(Icons.meeting_room_outlined, '${s.units} flats'),
@@ -428,7 +428,7 @@ class PlansView extends GetView<PlansController> {
                     ),
                     Expanded(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        Text(p.name, style: context.appText.sectionHeader.copyWith(fontSize: 17, fontWeight: FontWeight.w800)),
+                        Text(p.name, style: context.appText.sectionHeader.copyWith(fontSize: 16, fontWeight: FontWeight.w600)),
                         Text(p.key, style: context.appText.timestamp),
                       ]),
                     ),
@@ -437,13 +437,13 @@ class PlansView extends GetView<PlansController> {
                     if (p.key == 'legacy') const PillTag('No limits', AppColors.primary),
                   ]),
                   if (free)
-                    Text('Free', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: color, height: 1))
+                    Text('Free', style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: color, height: 1))
                   else
                     Wrap(crossAxisAlignment: WrapCrossAlignment.end, spacing: 6, children: [
-                      Text(rupees(p.ratePerUnitPaise), style: TextStyle(fontSize: 30, fontWeight: FontWeight.w800, color: color, height: 1)),
+                      Text(rupees(p.ratePerUnitPaise), style: TextStyle(fontSize: 28, fontWeight: FontWeight.w600, color: color, height: 1)),
                       Padding(padding: const EdgeInsets.only(bottom: 3), child: Text('per flat / month', style: context.appText.timestamp)),
                       if (p.flatFeePaise > 0)
-                        Padding(padding: const EdgeInsets.only(bottom: 3), child: Text('+ ${rupees(p.flatFeePaise)} flat fee', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700))),
+                        Padding(padding: const EdgeInsets.only(bottom: 3), child: Text('+ ${rupees(p.flatFeePaise)} flat fee', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
                     ]),
                 ],
               ),
@@ -455,7 +455,7 @@ class PlansView extends GetView<PlansController> {
                 spacing: 14,
                 children: [
                   // ── Services ───────────────────────────────────────────────
-                  Text('SERVICES', style: context.appText.timestamp.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.8)),
+                  Text('SERVICES', style: context.appText.timestamp.copyWith(fontWeight: FontWeight.w600, letterSpacing: 0.8)),
                   if (p.features.isEmpty)
                     Text('No services', style: context.appText.timestamp)
                   else
@@ -466,7 +466,7 @@ class PlansView extends GetView<PlansController> {
                           decoration: BoxDecoration(color: color.withAlpha(22), borderRadius: BorderRadius.circular(20)),
                           child: Row(mainAxisSize: MainAxisSize.min, spacing: 4, children: [
                             Icon(Icons.check_rounded, size: 13, color: color),
-                            Text(controller.featureName(f), style: TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: color)),
+                            Text(controller.featureName(f), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: color)),
                           ]),
                         ),
                       if (p.features.length > shown)
@@ -475,24 +475,24 @@ class PlansView extends GetView<PlansController> {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
                             decoration: BoxDecoration(color: AppColors.backgroundLight, borderRadius: BorderRadius.circular(20)),
-                            child: Text('+${p.features.length - shown} more', style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700)),
+                            child: Text('+${p.features.length - shown} more', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                           ),
                         ),
                     ]),
                   // ── Limits ─────────────────────────────────────────────────
-                  Text('LIMITS', style: context.appText.timestamp.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.8)),
+                  Text('LIMITS', style: context.appText.timestamp.copyWith(fontWeight: FontWeight.w600, letterSpacing: 0.8)),
                   if (p.unlimited)
                     Row(spacing: 8, children: [
                       Icon(Icons.all_inclusive_rounded, size: 18, color: color),
-                      Text('Unlimited', style: const TextStyle(fontWeight: FontWeight.w700)),
+                      Text('Unlimited', style: const TextStyle(fontWeight: FontWeight.w600)),
                     ])
                   else
                     Column(spacing: 8, children: [
                       for (final e in limits)
                         Row(spacing: 10, children: [
                           Icon(limitIcon(e.key), size: 17, color: AppColors.textSecondaryLight),
-                          Expanded(child: Text(e.value, style: const TextStyle(fontSize: 13))),
-                          Text('${p.limits[e.key]}', style: const TextStyle(fontSize: 13.5, fontWeight: FontWeight.w800)),
+                          Expanded(child: Text(e.value, style: const TextStyle(fontSize: 14))),
+                          Text('${p.limits[e.key]}', style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                         ]),
                     ]),
                 ],
@@ -537,7 +537,7 @@ class PlansView extends GetView<PlansController> {
             IconTile(icon, color),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(value, style: TextStyle(fontSize: 21, fontWeight: FontWeight.w800, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
+                Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1), maxLines: 1, overflow: TextOverflow.ellipsis),
                 Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
               ]),
             ),
@@ -589,7 +589,7 @@ class PlansView extends GetView<PlansController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('Plans', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+                    Text('Plans', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
                     Text('A plan sets the price, the services a society gets and its limits. Assign it from a society\'s page.', style: context.appText.timestamp),
                   ],
                 ),
@@ -598,7 +598,7 @@ class PlansView extends GetView<PlansController> {
                     padding: const EdgeInsets.only(left: 12),
                     decoration: BoxDecoration(color: AppColors.surfaceLight, borderRadius: BorderRadius.circular(14), border: Border.all(color: AppColors.dividerLight)),
                     child: Row(mainAxisSize: MainAxisSize.min, children: [
-                      const Text('Show archived', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+                      const Text('Show archived', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                       Switch(value: controller.showArchived.value, onChanged: (v) => controller.showArchived.value = v),
                     ]),
                   ),

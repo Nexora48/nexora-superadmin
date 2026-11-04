@@ -69,7 +69,7 @@ class _AppDropdownState<T> extends State<AppDropdown<T>> {
             if (title != null)
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                child: Text(title, style: TextStyle(fontSize: 17, fontWeight: FontWeight.w800, color: scheme.onSurface)),
+                child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: scheme.onSurface)),
               ),
             Flexible(
               child: ListView(
@@ -189,8 +189,8 @@ class _SheetRow extends StatelessWidget {
                 Expanded(
                   child: DefaultTextStyle.merge(
                     style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      fontSize: 14,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                       color: enabled ? (selected ? scheme.primary : scheme.onSurface) : scheme.onSurface.withAlpha(110),
                     ),
                     child: child,

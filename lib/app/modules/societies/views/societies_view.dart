@@ -24,7 +24,7 @@ class SocietiesView extends GetView<SocietiesController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Societies', style: context.appText.sectionHeader.copyWith(fontSize: 22, fontWeight: FontWeight.w800)),
+              Text('Societies', style: context.appText.sectionHeader.copyWith(fontSize: 20, fontWeight: FontWeight.w600)),
               Text('Every society on the platform, its size and activity', style: context.appText.timestamp),
             ],
           ),
@@ -73,7 +73,7 @@ class SocietiesView extends GetView<SocietiesController> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(() => Text('${controller.counts[index]}', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800, color: color, height: 1.1))),
+                    Obx(() => Text('${controller.counts[index]}', style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: color, height: 1.1))),
                     Text(label, style: context.appText.timestamp, maxLines: 1, overflow: TextOverflow.ellipsis),
                   ],
                 ),
@@ -145,7 +145,7 @@ class SocietiesView extends GetView<SocietiesController> {
                     colors: dim ? [AppColors.errorLight, AppColors.error.withAlpha(60)] : [AppColors.primaryLighter, AppColors.primary.withAlpha(70)],
                   ),
                 ),
-                child: Text(initial, style: TextStyle(fontSize: 19, fontWeight: FontWeight.w800, color: dim ? AppColors.error : AppColors.primary)),
+                child: Text(initial, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: dim ? AppColors.error : AppColors.primary)),
               ),
               const SizedBox(width: 14),
               Expanded(
@@ -154,7 +154,7 @@ class SocietiesView extends GetView<SocietiesController> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 3,
                   children: [
-                    Text(row.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                    Text(row.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     Wrap(spacing: 12, children: [
                       MetaItem(Icons.tag_rounded, row.slug),
                       if (row.city.isNotEmpty) MetaItem(Icons.place_outlined, row.city),
@@ -173,7 +173,7 @@ class SocietiesView extends GetView<SocietiesController> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(v, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w800)),
+                              Text(v, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                               Text(l, style: context.appText.timestamp),
                             ],
                           ),
@@ -189,7 +189,7 @@ class SocietiesView extends GetView<SocietiesController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       spacing: 5,
                       children: [
-                        Text('${row.enabledServices}/${row.totalServices} services', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700)),
+                        Text('${row.enabledServices}/${row.totalServices} services', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(6),
                           child: LinearProgressIndicator(minHeight: 6, value: ratio, backgroundColor: AppColors.dividerLight, valueColor: AlwaysStoppedAnimation(accent)),
@@ -204,7 +204,7 @@ class SocietiesView extends GetView<SocietiesController> {
                       spacing: 6,
                       children: [
                         const Icon(Icons.login_rounded, size: 15, color: AppColors.textSecondaryLight),
-                        Expanded(child: Text(timeAgo(row.lastSignIn), maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12.5, fontWeight: FontWeight.w600))),
+                        Expanded(child: Text(timeAgo(row.lastSignIn), maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600))),
                       ],
                     ),
                   ),
@@ -234,7 +234,7 @@ class SocietiesView extends GetView<SocietiesController> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
               decoration: BoxDecoration(color: AppColors.primary.withAlpha(22), borderRadius: BorderRadius.circular(10)),
-              child: Text('$page / ${controller.totalPages}', style: const TextStyle(fontWeight: FontWeight.w800, color: AppColors.primary)),
+              child: Text('$page / ${controller.totalPages}', style: const TextStyle(fontWeight: FontWeight.w600, color: AppColors.primary)),
             ),
             IconButton(onPressed: page < controller.totalPages ? () => controller.goToPage(page + 1) : null, icon: const Icon(Icons.chevron_right_rounded)),
           ],

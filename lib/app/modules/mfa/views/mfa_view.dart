@@ -37,7 +37,7 @@ class MfaView extends GetView<MfaController> {
           const SizedBox(height: 4),
           SelectableText(
             controller.step.secret ?? '',
-            style: const TextStyle(fontFamily: 'monospace', fontSize: 14, fontWeight: FontWeight.w700, letterSpacing: 1.5),
+            style: const TextStyle(fontFamily: 'monospace', fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 1.5),
           ),
           const SizedBox(height: 16),
         ],
@@ -67,7 +67,7 @@ class MfaView extends GetView<MfaController> {
                 maxLength: 6,
                 autofocus: true,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 26, letterSpacing: 8, fontWeight: FontWeight.w700),
+                style: const TextStyle(fontSize: 28, letterSpacing: 8, fontWeight: FontWeight.w600),
                 onSubmitted: (_) => controller.verify(),
                 decoration: const InputDecoration(counterText: '', hintText: '••••••'),
               )
@@ -127,7 +127,7 @@ class MfaView extends GetView<MfaController> {
                   runSpacing: 8,
                   children: [
                     for (final c in controller.recoveryCodes)
-                      SelectableText(c, style: const TextStyle(fontFamily: 'monospace', fontSize: 15, fontWeight: FontWeight.w700)),
+                      SelectableText(c, style: const TextStyle(fontFamily: 'monospace', fontSize: 14, fontWeight: FontWeight.w600)),
                   ],
                 ),
               ),

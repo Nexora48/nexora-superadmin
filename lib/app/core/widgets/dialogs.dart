@@ -45,7 +45,7 @@ Widget dialogShell(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title, style: context.appText.sectionHeader.copyWith(fontWeight: FontWeight.w800)),
+                      Text(title, style: context.appText.sectionHeader.copyWith(fontWeight: FontWeight.w600)),
                       if (subtitle != null) Text(subtitle, style: context.appText.timestamp),
                     ],
                   ),
@@ -85,7 +85,7 @@ Widget pill(String text, Color fg, Color bg) => Container(
   decoration: BoxDecoration(color: bg, borderRadius: AppRadius.pill),
   child: Text(
     text,
-    style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700, color: fg),
+    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: fg),
   ),
 );
 
@@ -97,7 +97,7 @@ Widget dialogErrorText(RxString message) => Obx(
           padding: const EdgeInsets.only(top: 10),
           child: Text(
             message.value,
-            style: const TextStyle(color: AppColors.error, fontSize: 13),
+            style: const TextStyle(color: AppColors.error, fontSize: 14),
           ),
         ),
 );
@@ -119,7 +119,7 @@ Widget noticeBar(RxString notice) => Obx(
             style: const TextStyle(
               color: AppColors.success,
               fontWeight: FontWeight.w600,
-              fontSize: 13,
+              fontSize: 14,
             ),
           ),
         ),

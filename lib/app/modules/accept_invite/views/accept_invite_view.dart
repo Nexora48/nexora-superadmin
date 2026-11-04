@@ -128,7 +128,7 @@ class AcceptInviteView extends GetView<AcceptInviteController> {
                 const SizedBox(height: 14),
                 Text(
                   'Nexora SuperAdmin',
-                  style: context.appText.sectionHeader.copyWith(fontSize: 22),
+                  style: context.appText.sectionHeader.copyWith(fontSize: 20),
                 ),
                 const SizedBox(height: 24),
                 cardBox(

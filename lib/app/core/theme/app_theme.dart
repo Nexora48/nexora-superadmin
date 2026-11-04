@@ -10,6 +10,7 @@ abstract class AppTheme {
   // ─── Light Theme ──────────────────────────────────────────────────────────
   static ThemeData get light => ThemeData(
     useMaterial3: true,
+    fontFamily: 'Inter',
     brightness: Brightness.light,
     colorScheme: _lightColorScheme,
     textTheme: AppTextTheme.light,
@@ -25,7 +26,7 @@ abstract class AppTheme {
       centerTitle: false,
       titleTextStyle: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
         color: AppColors.primary,
       ),
       iconTheme: IconThemeData(color: AppColors.textPrimaryLight, size: 24),
@@ -106,7 +107,7 @@ abstract class AppTheme {
           vertical: AppSpacing.buttonPaddingV,
         ),
         shape: RoundedRectangleBorder(borderRadius: AppRadius.pill),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),
 
@@ -120,7 +121,7 @@ abstract class AppTheme {
           vertical: AppSpacing.buttonPaddingV,
         ),
         shape: RoundedRectangleBorder(borderRadius: AppRadius.pill),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),
 
@@ -132,7 +133,7 @@ abstract class AppTheme {
           horizontal: AppSpacing.sm,
           vertical: AppSpacing.xs,
         ),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),
 
@@ -169,7 +170,7 @@ abstract class AppTheme {
       fillColor: AppColors.inputFillLight,
       hintStyle: const TextStyle(
         color: AppColors.textPlaceholderLight,
-        fontSize: 15,
+        fontSize: 14,
       ),
       border: OutlineInputBorder(
         borderRadius: AppRadius.input,
@@ -219,11 +220,11 @@ abstract class AppTheme {
       shape: AppRadius.cardShape,
       titleTextStyle: const TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: AppColors.textPrimaryLight,
       ),
       contentTextStyle: const TextStyle(
-        fontSize: 15,
+        fontSize: 14,
         color: AppColors.textSecondaryLight,
       ),
     ),
@@ -271,7 +272,7 @@ abstract class AppTheme {
       unselectedLabelColor: AppColors.textSecondaryLight,
       indicatorColor: AppColors.primary,
       indicatorSize: TabBarIndicatorSize.tab,
-      labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+      labelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       unselectedLabelStyle: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       dividerColor: AppColors.dividerLight,
     ),
@@ -307,6 +308,7 @@ abstract class AppTheme {
   // ─── Dark Theme ───────────────────────────────────────────────────────────
   static ThemeData get dark => ThemeData(
     useMaterial3: true,
+    fontFamily: 'Inter',
     brightness: Brightness.dark,
     colorScheme: _darkColorScheme,
     textTheme: AppTextTheme.dark,
@@ -322,7 +324,7 @@ abstract class AppTheme {
       centerTitle: false,
       titleTextStyle: TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w800,
+        fontWeight: FontWeight.w600,
         color: AppColors.primary,
       ),
       iconTheme: IconThemeData(color: AppColors.textPrimaryDark, size: 24),
@@ -379,7 +381,7 @@ abstract class AppTheme {
           vertical: AppSpacing.buttonPaddingV,
         ),
         shape: RoundedRectangleBorder(borderRadius: AppRadius.pill),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),
 
@@ -393,7 +395,7 @@ abstract class AppTheme {
           vertical: AppSpacing.buttonPaddingV,
         ),
         shape: RoundedRectangleBorder(borderRadius: AppRadius.pill),
-        textStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     ),
 
@@ -402,7 +404,7 @@ abstract class AppTheme {
       fillColor: AppColors.inputFillDark,
       hintStyle: const TextStyle(
         color: AppColors.textPlaceholderDark,
-        fontSize: 15,
+        fontSize: 14,
       ),
       border: OutlineInputBorder(
         borderRadius: AppRadius.input,
@@ -436,11 +438,11 @@ abstract class AppTheme {
       shape: AppRadius.cardShape,
       titleTextStyle: const TextStyle(
         fontSize: 20,
-        fontWeight: FontWeight.w700,
+        fontWeight: FontWeight.w600,
         color: AppColors.textPrimaryDark,
       ),
       contentTextStyle: const TextStyle(
-        fontSize: 15,
+        fontSize: 14,
         color: AppColors.textSecondaryDark,
       ),
     ),
