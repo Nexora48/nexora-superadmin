@@ -12,6 +12,7 @@ import '../../../data/models/billing_models.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../services/platform_auth_service.dart';
 import '../controllers/billing_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class BillingView extends GetView<BillingController> {
   const BillingView({super.key});
@@ -60,9 +61,9 @@ class BillingView extends GetView<BillingController> {
               const SizedBox(height: 12),
               Obx(
                 () => AppDropdown<String>(
+                  label: 'Month',
                   initialValue: p.value,
                   decoration: const InputDecoration(
-                    labelText: 'Month',
                     isDense: true,
                   ),
                   items: [
@@ -110,13 +111,15 @@ class BillingView extends GetView<BillingController> {
                 style: context.appText.timestamp,
               ),
               const SizedBox(height: 12),
-              TextField(
-                controller: controller.referenceCtrl,
-                maxLength: 80,
-                decoration: const InputDecoration(
-                  labelText: 'Bank reference (required)',
-                  prefixIcon: Icon(Icons.tag_rounded, size: 20),
-                  counterText: '',
+              LabeledField(
+                label: 'Bank reference (required)',
+                child: TextField(
+                  controller: controller.referenceCtrl,
+                  maxLength: 80,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.tag_rounded, size: 20),
+                    counterText: '',
+                  ),
                 ),
               ),
               dialogError(),
@@ -156,34 +159,40 @@ class BillingView extends GetView<BillingController> {
                 '${s.flats} flats. The monthly invoice is rate × flats + the flat fee.',
                 style: context.appText.timestamp,
               ),
-              TextField(
-                controller: controller.rateCtrl,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'Rate per flat per month',
-                  prefixText: '₹ ',
-                  prefixIcon: Icon(Icons.home_work_outlined, size: 20),
-                ),
-              ),
-              TextField(
-                controller: controller.flatCtrl,
-                keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                decoration: const InputDecoration(
-                  labelText: 'Flat monthly fee (optional)',
-                  prefixText: '₹ ',
-                  prefixIcon: Icon(Icons.payments_outlined, size: 20),
+              LabeledField(
+                label: 'Rate per flat per month',
+                child: TextField(
+                  controller: controller.rateCtrl,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(
+                    prefixText: '₹ ',
+                    prefixIcon: Icon(Icons.home_work_outlined, size: 20),
+                  ),
                 ),
               ),
-              TextField(
-                controller: controller.dayCtrl,
-                keyboardType: TextInputType.number,
-                decoration: const InputDecoration(
-                  labelText: 'Billing day (1-28)',
-                  prefixIcon: Icon(Icons.event_repeat_rounded, size: 20),
+              LabeledField(
+                label: 'Flat monthly fee (optional)',
+                child: TextField(
+                  controller: controller.flatCtrl,
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
+                  decoration: const InputDecoration(
+                    prefixText: '₹ ',
+                    prefixIcon: Icon(Icons.payments_outlined, size: 20),
+                  ),
+                ),
+              ),
+              LabeledField(
+                label: 'Billing day (1-28)',
+                child: TextField(
+                  controller: controller.dayCtrl,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    prefixIcon: Icon(Icons.event_repeat_rounded, size: 20),
+                  ),
                 ),
               ),
               Obx(
@@ -279,9 +288,10 @@ class BillingView extends GetView<BillingController> {
               width: 190,
               child: Obx(
                 () => AppDropdown<String>(
+                  label: 'Month',
                   initialValue: controller.period.value,
                   isDense: true,
-                  decoration: const InputDecoration(isDense: true, labelText: 'Month', prefixIcon: Icon(Icons.calendar_month_outlined, size: 20)),
+                  decoration: const InputDecoration(isDense: true, prefixIcon: Icon(Icons.calendar_month_outlined, size: 20)),
                   items: [
                     const DropdownMenuItem(value: '', child: Text('Every month')),
                     for (final x in controller.periods) DropdownMenuItem(value: x, child: Text(periodLabel(x))),

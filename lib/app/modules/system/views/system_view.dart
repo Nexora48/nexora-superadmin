@@ -10,6 +10,7 @@ import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/m10_models.dart';
 import '../../../services/platform_auth_service.dart';
 import '../controllers/system_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class SystemView extends GetView<SystemController> {
   const SystemView({super.key});
@@ -167,26 +168,38 @@ class SystemView extends GetView<SystemController> {
               Text('Apps older than the minimum show a blocking "update required" screen. Apps older than the latest show a dismissible banner.', style: context.appText.timestamp.copyWith(height: 1.4)),
               Row(spacing: 12, children: [
                 Expanded(
-                  child: TextField(
-                    controller: controller.minCtrl,
-                    decoration: const InputDecoration(labelText: 'Minimum version', hintText: '1.2.0', prefixIcon: Icon(Icons.block_rounded, size: 19)),
+                  child: LabeledField(
+                    label: 'Minimum version',
+                    child: TextField(
+                      controller: controller.minCtrl,
+                      decoration: const InputDecoration(hintText: '1.2.0', prefixIcon: Icon(Icons.block_rounded, size: 19)),
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: TextField(
-                    controller: controller.latestCtrl,
-                    decoration: const InputDecoration(labelText: 'Latest version', hintText: '1.4.0', prefixIcon: Icon(Icons.new_releases_outlined, size: 19)),
+                  child: LabeledField(
+                    label: 'Latest version',
+                    child: TextField(
+                      controller: controller.latestCtrl,
+                      decoration: const InputDecoration(hintText: '1.4.0', prefixIcon: Icon(Icons.new_releases_outlined, size: 19)),
+                    ),
                   ),
                 ),
               ]),
-              TextField(
-                controller: controller.messageCtrl,
-                maxLength: 300,
-                decoration: const InputDecoration(labelText: 'Message shown to users', counterText: '', prefixIcon: Icon(Icons.chat_bubble_outline_rounded, size: 19)),
+              LabeledField(
+                label: 'Message shown to users',
+                child: TextField(
+                  controller: controller.messageCtrl,
+                  maxLength: 300,
+                  decoration: const InputDecoration(counterText: '', prefixIcon: Icon(Icons.chat_bubble_outline_rounded, size: 19)),
+                ),
               ),
-              TextField(
-                controller: controller.storeCtrl,
-                decoration: const InputDecoration(labelText: 'Store or download link (https://…)', prefixIcon: Icon(Icons.link_rounded, size: 19)),
+              LabeledField(
+                label: 'Store or download link (https://…)',
+                child: TextField(
+                  controller: controller.storeCtrl,
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.link_rounded, size: 19)),
+                ),
               ),
               dialogErrorText(controller.dialogError),
             ],
@@ -277,11 +290,14 @@ class SystemView extends GetView<SystemController> {
             spacing: 14,
             children: [
               Text('Entries older than this are removed once a day (staff entries are kept twice as long). One summary entry records each clean-up.', style: context.appText.timestamp.copyWith(height: 1.4)),
-              TextField(
-                controller: controller.retentionCtrl,
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: const InputDecoration(labelText: 'Days (30 to 3650)', suffixText: 'days', prefixIcon: Icon(Icons.event_repeat_rounded, size: 19)),
+              LabeledField(
+                label: 'Days (30 to 3650)',
+                child: TextField(
+                  controller: controller.retentionCtrl,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(suffixText: 'days', prefixIcon: Icon(Icons.event_repeat_rounded, size: 19)),
+                ),
               ),
               dialogErrorText(controller.dialogError),
             ],

@@ -11,6 +11,7 @@ import '../../../core/widgets/dialogs.dart';
 import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/platform_models.dart';
 import '../controllers/audit_logs_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class AuditLogsView extends GetView<AuditLogsController> {
   const AuditLogsView({super.key});
@@ -249,14 +250,16 @@ class AuditLogsView extends GetView<AuditLogsController> {
             children: [
               SizedBox(
                 width: 260,
-                child: TextField(
-                  controller: controller.textCtrl,
-                  onSubmitted: (_) => controller.apply(),
-                  decoration: InputDecoration(
-                    labelText: 'Search action, entity or id',
-                    isDense: true,
-                    prefixIcon: const Icon(Icons.search_rounded, size: 20),
-                    suffixIcon: IconButton(onPressed: controller.apply, icon: const Icon(Icons.arrow_forward_rounded, size: 18)),
+                child: LabeledField(
+                  label: 'Search action, entity or id',
+                  child: TextField(
+                    controller: controller.textCtrl,
+                    onSubmitted: (_) => controller.apply(),
+                    decoration: InputDecoration(
+                      isDense: true,
+                      prefixIcon: const Icon(Icons.search_rounded, size: 20),
+                      suffixIcon: IconButton(onPressed: controller.apply, icon: const Icon(Icons.arrow_forward_rounded, size: 18)),
+                    ),
                   ),
                 ),
               ),
@@ -264,8 +267,9 @@ class AuditLogsView extends GetView<AuditLogsController> {
                 width: 180,
                 child: Obx(
                   () => AppDropdown<String>(
+                    label: 'Who',
                     initialValue: controller.actorType.value,
-                    decoration: const InputDecoration(labelText: 'Who', isDense: true, prefixIcon: Icon(Icons.person_outline_rounded, size: 20)),
+                    decoration: const InputDecoration(isDense: true, prefixIcon: Icon(Icons.person_outline_rounded, size: 20)),
                     items: [for (final k in AuditLogsController.actorTypes.keys) DropdownMenuItem(value: k, child: Text(k))],
                     onChanged: (v) => controller.actorType.value = v ?? 'Anyone',
                   ),
@@ -275,9 +279,10 @@ class AuditLogsView extends GetView<AuditLogsController> {
                 width: 230,
                 child: Obx(
                   () => AppDropdown<String>(
+                    label: 'Society',
                     initialValue: controller.societyId.value,
                     isExpanded: true,
-                    decoration: const InputDecoration(labelText: 'Society', isDense: true, prefixIcon: Icon(Icons.apartment_rounded, size: 20)),
+                    decoration: const InputDecoration(isDense: true, prefixIcon: Icon(Icons.apartment_rounded, size: 20)),
                     items: [
                       const DropdownMenuItem(value: '', child: Text('All societies')),
                       for (final s in controller.societies) DropdownMenuItem(value: s.id, child: Text(s.name, overflow: TextOverflow.ellipsis)),

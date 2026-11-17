@@ -11,6 +11,7 @@ import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/m10_models.dart';
 import '../../../services/platform_auth_service.dart';
 import '../controllers/plans_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class PlansView extends GetView<PlansController> {
   const PlansView({super.key});
@@ -141,21 +142,26 @@ class PlansView extends GetView<PlansController> {
                           AppColors.primary,
                           'Plan details',
                           child: Column(spacing: 14, children: [
-                            TextField(
-                              controller: controller.nameCtrl,
-                              maxLength: 60,
-                              textCapitalization: TextCapitalization.words,
-                              decoration: const InputDecoration(labelText: 'Name', counterText: '', prefixIcon: Icon(Icons.workspace_premium_outlined, size: 20)),
+                            LabeledField(
+                              label: 'Name',
+                              child: TextField(
+                                controller: controller.nameCtrl,
+                                maxLength: 60,
+                                textCapitalization: TextCapitalization.words,
+                                decoration: const InputDecoration(counterText: '', prefixIcon: Icon(Icons.workspace_premium_outlined, size: 20)),
+                              ),
                             ),
                             if (p == null)
-                              TextField(
-                                controller: controller.keyCtrl,
-                                maxLength: 32,
-                                decoration: const InputDecoration(
-                                  labelText: 'Key (cannot be changed later)',
-                                  hintText: 'e.g. premium_plus',
-                                  counterText: '',
-                                  prefixIcon: Icon(Icons.key_rounded, size: 20),
+                              LabeledField(
+                                label: 'Key (cannot be changed later)',
+                                child: TextField(
+                                  controller: controller.keyCtrl,
+                                  maxLength: 32,
+                                  decoration: const InputDecoration(
+                                    hintText: 'e.g. premium_plus',
+                                    counterText: '',
+                                    prefixIcon: Icon(Icons.key_rounded, size: 20),
+                                  ),
                                 ),
                               ),
                           ]),
@@ -168,21 +174,27 @@ class PlansView extends GetView<PlansController> {
                           child: Column(crossAxisAlignment: CrossAxisAlignment.start, spacing: 14, children: [
                             Row(spacing: 12, children: [
                               Expanded(
-                                child: TextField(
-                                  controller: controller.rateCtrl,
-                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                  inputFormatters: money(),
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  decoration: const InputDecoration(labelText: 'Per flat per month', prefixText: '₹ ', prefixIcon: Icon(Icons.home_work_outlined, size: 20)),
+                                child: LabeledField(
+                                  label: 'Per flat per month',
+                                  child: TextField(
+                                    controller: controller.rateCtrl,
+                                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                    inputFormatters: money(),
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                    decoration: const InputDecoration(prefixText: '₹ ', prefixIcon: Icon(Icons.home_work_outlined, size: 20)),
+                                  ),
                                 ),
                               ),
                               Expanded(
-                                child: TextField(
-                                  controller: controller.flatCtrl,
-                                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                                  inputFormatters: money(),
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                                  decoration: const InputDecoration(labelText: 'Flat fee per month', prefixText: '₹ ', prefixIcon: Icon(Icons.payments_outlined, size: 20)),
+                                child: LabeledField(
+                                  label: 'Flat fee per month',
+                                  child: TextField(
+                                    controller: controller.flatCtrl,
+                                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                                    inputFormatters: money(),
+                                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                                    decoration: const InputDecoration(prefixText: '₹ ', prefixIcon: Icon(Icons.payments_outlined, size: 20)),
+                                  ),
                                 ),
                               ),
                             ]),
@@ -271,17 +283,19 @@ class PlansView extends GetView<PlansController> {
                               for (final e in planLimitLabels.entries)
                                 SizedBox(
                                   width: w,
-                                  child: TextField(
-                                    controller: controller.limitCtrls[e.key],
-                                    keyboardType: TextInputType.number,
-                                    inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                                    decoration: InputDecoration(
-                                      labelText: e.value,
-                                      hintText: 'Unlimited',
-                                      prefixIcon: Icon(limitIcon(e.key), size: 19),
-                                      suffixIcon: hardLimits.contains(e.key)
-                                          ? const Tooltip(message: 'Blocks at the limit', child: Icon(Icons.lock_outline_rounded, size: 17, color: AppColors.orange))
-                                          : const Tooltip(message: 'Only warns', child: Icon(Icons.notifications_none_rounded, size: 17, color: AppColors.textSecondaryLight)),
+                                  child: LabeledField(
+                                    label: e.value,
+                                    child: TextField(
+                                      controller: controller.limitCtrls[e.key],
+                                      keyboardType: TextInputType.number,
+                                      inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                                      decoration: InputDecoration(
+                                        hintText: 'Unlimited',
+                                        prefixIcon: Icon(limitIcon(e.key), size: 19),
+                                        suffixIcon: hardLimits.contains(e.key)
+                                            ? const Tooltip(message: 'Blocks at the limit', child: Icon(Icons.lock_outline_rounded, size: 17, color: AppColors.orange))
+                                            : const Tooltip(message: 'Only warns', child: Icon(Icons.notifications_none_rounded, size: 17, color: AppColors.textSecondaryLight)),
+                                      ),
                                     ),
                                   ),
                                 ),

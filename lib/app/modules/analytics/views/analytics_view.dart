@@ -107,9 +107,10 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   width: 250,
                   child: Obx(
                     () => AppDropdown<String>(
+                      label: 'Metric',
                       initialValue: controller.metric.value,
                       isExpanded: true,
-                      decoration: const InputDecoration(labelText: 'Metric', isDense: true, prefixIcon: Icon(Icons.show_chart_rounded, size: 20)),
+                      decoration: const InputDecoration(isDense: true, prefixIcon: Icon(Icons.show_chart_rounded, size: 20)),
                       items: [for (final m in controller.metrics) DropdownMenuItem(value: m.key, child: Text(m.name))],
                       onChanged: (v) => controller.metric.value = v ?? controller.metric.value,
                     ),
@@ -119,9 +120,10 @@ class AnalyticsView extends GetView<AnalyticsController> {
                   width: 270,
                   child: Obx(
                     () => AppDropdown<String>(
+                      label: 'Society',
                       initialValue: controller.societyId.value,
                       isExpanded: true,
-                      decoration: const InputDecoration(labelText: 'Society', isDense: true, prefixIcon: Icon(Icons.apartment_rounded, size: 20)),
+                      decoration: const InputDecoration(isDense: true, prefixIcon: Icon(Icons.apartment_rounded, size: 20)),
                       items: [
                         const DropdownMenuItem(value: '', child: Text('Whole platform')),
                         for (final s in controller.societies) DropdownMenuItem(value: s.id, child: Text(s.name, overflow: TextOverflow.ellipsis)),

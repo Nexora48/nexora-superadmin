@@ -10,6 +10,7 @@ import '../../../core/widgets/dialogs.dart';
 import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/m10_models.dart';
 import '../controllers/staff_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class StaffView extends GetView<StaffController> {
   const StaffView({super.key});
@@ -76,20 +77,27 @@ class StaffView extends GetView<StaffController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 14,
             children: [
-              TextField(
-                controller: controller.nameCtrl,
-                textCapitalization: TextCapitalization.words,
-                decoration: const InputDecoration(labelText: 'Full name', prefixIcon: Icon(Icons.person_outline_rounded, size: 20)),
+              LabeledField(
+                label: 'Full name',
+                child: TextField(
+                  controller: controller.nameCtrl,
+                  textCapitalization: TextCapitalization.words,
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded, size: 20)),
+                ),
               ),
-              TextField(
-                controller: controller.emailCtrl,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'Work email', prefixIcon: Icon(Icons.mail_outline_rounded, size: 20)),
+              LabeledField(
+                label: 'Work email',
+                child: TextField(
+                  controller: controller.emailCtrl,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.mail_outline_rounded, size: 20)),
+                ),
               ),
               Obx(
                 () => AppDropdown<String>(
+                  label: 'Role',
                   initialValue: controller.inviteRole.value,
-                  decoration: const InputDecoration(labelText: 'Role', prefixIcon: Icon(Icons.admin_panel_settings_outlined, size: 20)),
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.admin_panel_settings_outlined, size: 20)),
                   items: const [
                     DropdownMenuItem(value: 'platform_support', child: Text('Support (read-only)')),
                     DropdownMenuItem(value: 'super_admin', child: Text('Super admin (can change everything)')),
@@ -320,21 +328,30 @@ class StaffView extends GetView<StaffController> {
             crossAxisAlignment: CrossAxisAlignment.start,
             spacing: 14,
             children: [
-              TextField(
-                controller: controller.titleCtrl,
-                maxLength: 120,
-                decoration: const InputDecoration(labelText: 'Title', counterText: '', prefixIcon: Icon(Icons.title_rounded, size: 20)),
+              LabeledField(
+                label: 'Title',
+                child: TextField(
+                  controller: controller.titleCtrl,
+                  maxLength: 120,
+                  decoration: const InputDecoration(counterText: '', prefixIcon: Icon(Icons.title_rounded, size: 20)),
+                ),
               ),
-              TextField(
-                controller: controller.bodyCtrl,
-                maxLength: 2000,
-                minLines: 3,
-                maxLines: 6,
-                decoration: const InputDecoration(labelText: 'Message', counterText: '', alignLabelWithHint: true, prefixIcon: Icon(Icons.notes_rounded, size: 20)),
+              LabeledField(
+                label: 'Message',
+                child: TextField(
+                  controller: controller.bodyCtrl,
+                  maxLength: 2000,
+                  minLines: 3,
+                  maxLines: 6,
+                  decoration: const InputDecoration(counterText: '', alignLabelWithHint: true, prefixIcon: Icon(Icons.notes_rounded, size: 20)),
+                ),
               ),
-              TextField(
-                controller: controller.linkCtrl,
-                decoration: const InputDecoration(labelText: 'Link (optional, https://…)', prefixIcon: Icon(Icons.link_rounded, size: 20)),
+              LabeledField(
+                label: 'Link (optional, https://…)',
+                child: TextField(
+                  controller: controller.linkCtrl,
+                  decoration: const InputDecoration(prefixIcon: Icon(Icons.link_rounded, size: 20)),
+                ),
               ),
               Row(spacing: 8, children: [
                 const Icon(Icons.groups_2_outlined, size: 18, color: AppColors.primary),

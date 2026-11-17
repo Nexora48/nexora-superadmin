@@ -13,6 +13,7 @@ import '../../../core/widgets/ui_kit.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../services/platform_auth_service.dart';
 import '../controllers/society_detail_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class SocietyDetailView extends GetView<SocietyDetailController> {
   const SocietyDetailView({super.key});
@@ -124,11 +125,14 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
           children: [
             Text(message, style: const TextStyle(fontSize: 14, height: 1.4)),
             const SizedBox(height: 14),
-            TextField(
-              controller: controller.reasonCtrl,
-              autofocus: true,
-              maxLength: 300,
-              decoration: const InputDecoration(labelText: 'Reason (saved in the audit log)', prefixIcon: Icon(Icons.notes_rounded, size: 20)),
+            LabeledField(
+              label: 'Reason (saved in the audit log)',
+              child: TextField(
+                controller: controller.reasonCtrl,
+                autofocus: true,
+                maxLength: 300,
+                decoration: const InputDecoration(prefixIcon: Icon(Icons.notes_rounded, size: 20)),
+              ),
             ),
             dialogErr(),
           ],
@@ -165,17 +169,32 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
           mainAxisSize: MainAxisSize.min,
           spacing: 12,
           children: [
-            TextField(controller: controller.nameCtrl, decoration: const InputDecoration(labelText: 'Name', prefixIcon: Icon(Icons.apartment_rounded, size: 20))),
-            TextField(controller: controller.addressCtrl, decoration: const InputDecoration(labelText: 'Address', prefixIcon: Icon(Icons.place_outlined, size: 20))),
+            LabeledField(
+              label: 'Name',
+              child: TextField(controller: controller.nameCtrl, decoration: const InputDecoration(prefixIcon: Icon(Icons.apartment_rounded, size: 20))),
+            ),
+            LabeledField(
+              label: 'Address',
+              child: TextField(controller: controller.addressCtrl, decoration: const InputDecoration(prefixIcon: Icon(Icons.place_outlined, size: 20))),
+            ),
             Row(spacing: 12, children: [
-              Expanded(child: TextField(controller: controller.cityCtrl, decoration: const InputDecoration(labelText: 'City'))),
-              Expanded(child: TextField(controller: controller.stateCtrl, decoration: const InputDecoration(labelText: 'State'))),
+              Expanded(child: LabeledField(
+                label: 'City',
+                child: TextField(controller: controller.cityCtrl, decoration: const InputDecoration()),
+              )),
+              Expanded(child: LabeledField(
+                label: 'State',
+                child: TextField(controller: controller.stateCtrl, decoration: const InputDecoration()),
+              )),
             ]),
-            TextField(
-              controller: controller.pincodeCtrl,
-              keyboardType: TextInputType.number,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)],
-              decoration: const InputDecoration(labelText: 'Pincode', prefixIcon: Icon(Icons.pin_drop_outlined, size: 20)),
+            LabeledField(
+              label: 'Pincode',
+              child: TextField(
+                controller: controller.pincodeCtrl,
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(6)],
+                decoration: const InputDecoration(prefixIcon: Icon(Icons.pin_drop_outlined, size: 20)),
+              ),
             ),
             dialogErr(),
           ],
@@ -198,13 +217,22 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
           mainAxisSize: MainAxisSize.min,
           spacing: 12,
           children: [
-            TextField(controller: controller.adminNameCtrl, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(labelText: 'Full name', prefixIcon: Icon(Icons.person_outline_rounded, size: 20))),
-            TextField(controller: controller.adminEmailCtrl, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(labelText: 'Email (used to sign in)', prefixIcon: Icon(Icons.mail_outline_rounded, size: 20))),
-            TextField(
-              controller: controller.adminPhoneCtrl,
-              keyboardType: TextInputType.phone,
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
-              decoration: const InputDecoration(labelText: 'Mobile number', prefixText: '+91  ', prefixIcon: Icon(Icons.phone_outlined, size: 20), counterText: ''),
+            LabeledField(
+              label: 'Full name',
+              child: TextField(controller: controller.adminNameCtrl, textCapitalization: TextCapitalization.words, decoration: const InputDecoration(prefixIcon: Icon(Icons.person_outline_rounded, size: 20))),
+            ),
+            LabeledField(
+              label: 'Email (used to sign in)',
+              child: TextField(controller: controller.adminEmailCtrl, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(prefixIcon: Icon(Icons.mail_outline_rounded, size: 20))),
+            ),
+            LabeledField(
+              label: 'Mobile number',
+              child: TextField(
+                controller: controller.adminPhoneCtrl,
+                keyboardType: TextInputType.phone,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly, LengthLimitingTextInputFormatter(10)],
+                decoration: const InputDecoration(prefixText: '+91  ', prefixIcon: Icon(Icons.phone_outlined, size: 20), counterText: ''),
+              ),
             ),
             dialogErr(),
           ],
@@ -612,9 +640,10 @@ class SocietyDetailView extends GetView<SocietyDetailController> {
               Text('The plan\'s price is copied into this society\'s subscription and its services are switched on or off to match. Limits start applying straight away; nothing is deleted if the society is already over one.', style: context.appText.timestamp),
               Obx(
                 () => AppDropdown<String>(
+                  label: 'Plan',
                   initialValue: controller.pickedPlan.value.isEmpty ? null : controller.pickedPlan.value,
                   isExpanded: true,
-                  decoration: const InputDecoration(labelText: 'Plan', isDense: true),
+                  decoration: const InputDecoration(isDense: true),
                   items: [
                     for (final p in controller.plans)
                       DropdownMenuItem(value: p.id, child: Text('${p.name} · ${rupees(p.ratePerUnitPaise)}/flat${p.flatFeePaise > 0 ? ' + ${rupees(p.flatFeePaise)}' : ''}')),

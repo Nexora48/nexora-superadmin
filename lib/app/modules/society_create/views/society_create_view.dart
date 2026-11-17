@@ -9,6 +9,7 @@ import '../../../core/widgets/common.dart';
 import '../../../data/models/platform_models.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/society_create_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class SocietyCreateView extends GetView<SocietyCreateController> {
   const SocietyCreateView({super.key});
@@ -41,11 +42,17 @@ class SocietyCreateView extends GetView<SocietyCreateController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(controller: controller.nameCtrl, autofocus: true, decoration: const InputDecoration(labelText: 'Society name *', hintText: 'Lakeview Towers')),
+          LabeledField(
+            label: 'Society name *',
+            child: TextField(controller: controller.nameCtrl, autofocus: true, decoration: const InputDecoration(hintText: 'Lakeview Towers')),
+          ),
           const SizedBox(height: 14),
-          TextField(
-            controller: controller.slugCtrl,
-            decoration: const InputDecoration(labelText: 'Handle (optional)', helperText: 'Short unique id, e.g. lakeview-towers. Generated from the name when empty.'),
+          LabeledField(
+            label: 'Handle (optional)',
+            child: TextField(
+              controller: controller.slugCtrl,
+              decoration: const InputDecoration(helperText: 'Short unique id, e.g. lakeview-towers. Generated from the name when empty.'),
+            ),
           ),
           const SizedBox(height: 14),
           Text('Starting status', style: context.appText.timestamp),
@@ -65,15 +72,27 @@ class SocietyCreateView extends GetView<SocietyCreateController> {
     addressStep() {
       return Column(
         children: [
-          TextField(controller: controller.addressCtrl, decoration: const InputDecoration(labelText: 'Address')),
+          LabeledField(
+            label: 'Address',
+            child: TextField(controller: controller.addressCtrl, decoration: const InputDecoration()),
+          ),
           const SizedBox(height: 14),
           Row(children: [
-            Expanded(child: TextField(controller: controller.cityCtrl, decoration: const InputDecoration(labelText: 'City'))),
+            Expanded(child: LabeledField(
+              label: 'City',
+              child: TextField(controller: controller.cityCtrl, decoration: const InputDecoration()),
+            )),
             const SizedBox(width: 12),
-            Expanded(child: TextField(controller: controller.stateCtrl, decoration: const InputDecoration(labelText: 'State'))),
+            Expanded(child: LabeledField(
+              label: 'State',
+              child: TextField(controller: controller.stateCtrl, decoration: const InputDecoration()),
+            )),
           ]),
           const SizedBox(height: 14),
-          TextField(controller: controller.pincodeCtrl, decoration: const InputDecoration(labelText: 'Pincode')),
+          LabeledField(
+            label: 'Pincode',
+            child: TextField(controller: controller.pincodeCtrl, decoration: const InputDecoration()),
+          ),
         ],
       );
     }
@@ -84,11 +103,20 @@ class SocietyCreateView extends GetView<SocietyCreateController> {
         children: [
           Text('This person manages the society in the Admin app. A temporary password is generated and shown once at the end.', style: context.appText.timestamp),
           const SizedBox(height: 14),
-          TextField(controller: controller.adminNameCtrl, autofocus: true, decoration: const InputDecoration(labelText: 'Full name *')),
+          LabeledField(
+            label: 'Full name *',
+            child: TextField(controller: controller.adminNameCtrl, autofocus: true, decoration: const InputDecoration()),
+          ),
           const SizedBox(height: 14),
-          TextField(controller: controller.adminEmailCtrl, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration(labelText: 'Email * (used to sign in)')),
+          LabeledField(
+            label: 'Email * (used to sign in)',
+            child: TextField(controller: controller.adminEmailCtrl, keyboardType: TextInputType.emailAddress, decoration: const InputDecoration()),
+          ),
           const SizedBox(height: 14),
-          TextField(controller: controller.adminPhoneCtrl, keyboardType: TextInputType.phone, maxLength: 10, decoration: const InputDecoration(labelText: 'Mobile number *', counterText: '')),
+          LabeledField(
+            label: 'Mobile number *',
+            child: TextField(controller: controller.adminPhoneCtrl, keyboardType: TextInputType.phone, maxLength: 10, decoration: const InputDecoration(counterText: '')),
+          ),
         ],
       );
     }
