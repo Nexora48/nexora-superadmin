@@ -7,6 +7,7 @@ import '../../../core/theme/app_text_theme.dart';
 import '../../../core/widgets/common.dart';
 import '../../../routes/app_pages.dart';
 import '../controllers/login_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
@@ -36,27 +37,32 @@ class LoginView extends GetView<LoginController> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            controller: controller.emailCtrl,
-            keyboardType: TextInputType.emailAddress,
-            autofillHints: const [AutofillHints.username],
-            decoration: const InputDecoration(labelText: 'Work email', prefixIcon: Icon(Icons.mail_outline_rounded)),
+          LabeledField(
+            label: 'Work email',
+            child: TextField(
+              controller: controller.emailCtrl,
+              keyboardType: TextInputType.emailAddress,
+              autofillHints: const [AutofillHints.username],
+              decoration: const InputDecoration(prefixIcon: Icon(Icons.mail_outline_rounded)),
+            ),
           ),
           const SizedBox(height: 14),
-          Obx(() => TextField(
-                controller: controller.passwordCtrl,
-                obscureText: controller.obscure.value,
-                autofillHints: const [AutofillHints.password],
-                onSubmitted: (_) => controller.login(),
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  prefixIcon: const Icon(Icons.lock_outline_rounded),
-                  suffixIcon: IconButton(
-                    icon: Icon(controller.obscure.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
-                    onPressed: controller.toggleObscure,
+          Obx(() => LabeledField(
+            label: 'Password',
+            child: TextField(
+                  controller: controller.passwordCtrl,
+                  obscureText: controller.obscure.value,
+                  autofillHints: const [AutofillHints.password],
+                  onSubmitted: (_) => controller.login(),
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.lock_outline_rounded),
+                    suffixIcon: IconButton(
+                      icon: Icon(controller.obscure.value ? Icons.visibility_off_outlined : Icons.visibility_outlined),
+                      onPressed: controller.toggleObscure,
+                    ),
                   ),
                 ),
-              )),
+          )),
           Obx(() => errorLine(controller.error.value)),
           const SizedBox(height: 20),
           Obx(() => SizedBox(

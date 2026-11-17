@@ -7,6 +7,7 @@ import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_text_theme.dart';
 import '../../../core/widgets/common.dart';
 import '../controllers/mfa_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class MfaView extends GetView<MfaController> {
   const MfaView({super.key});
@@ -72,11 +73,14 @@ class MfaView extends GetView<MfaController> {
                 decoration: const InputDecoration(counterText: '', hintText: '••••••'),
               )
             else
-              TextField(
-                controller: controller.recoveryCtrl,
-                autofocus: true,
-                onSubmitted: (_) => controller.verify(),
-                decoration: const InputDecoration(labelText: 'Recovery code', hintText: 'abcde-fghij'),
+              LabeledField(
+                label: 'Recovery code',
+                child: TextField(
+                  controller: controller.recoveryCtrl,
+                  autofocus: true,
+                  onSubmitted: (_) => controller.verify(),
+                  decoration: const InputDecoration(hintText: 'abcde-fghij'),
+                ),
               ),
             errorLine(controller.error.value),
             const SizedBox(height: 18),

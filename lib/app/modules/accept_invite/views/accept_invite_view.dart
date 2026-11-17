@@ -6,6 +6,7 @@ import '../../../core/theme/app_radius.dart';
 import '../../../core/theme/app_text_theme.dart';
 import '../../../core/widgets/common.dart';
 import '../controllers/accept_invite_controller.dart';
+import 'package:nexora_superadmin/app/core/widgets/labeled_field.dart';
 
 class AcceptInviteView extends GetView<AcceptInviteController> {
   const AcceptInviteView({super.key});
@@ -22,40 +23,46 @@ class AcceptInviteView extends GetView<AcceptInviteController> {
           style: context.appText.timestamp,
         ),
         const SizedBox(height: 16),
-        TextField(
-          controller: controller.tokenCtrl,
-          decoration: const InputDecoration(
-            labelText: 'Invitation code',
-            prefixIcon: Icon(Icons.vpn_key_outlined),
+        LabeledField(
+          label: 'Invitation code',
+          child: TextField(
+            controller: controller.tokenCtrl,
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.vpn_key_outlined),
+            ),
           ),
         ),
         const SizedBox(height: 12),
         Obx(
-          () => TextField(
-            controller: controller.passCtrl,
-            obscureText: controller.obscure.value,
-            decoration: InputDecoration(
-              labelText: 'New password',
-              prefixIcon: const Icon(Icons.lock_outline_rounded),
-              suffixIcon: IconButton(
-                icon: Icon(
-                  controller.obscure.value
-                      ? Icons.visibility_off_outlined
-                      : Icons.visibility_outlined,
+          () => LabeledField(
+            label: 'New password',
+            child: TextField(
+              controller: controller.passCtrl,
+              obscureText: controller.obscure.value,
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.lock_outline_rounded),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    controller.obscure.value
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined,
+                  ),
+                  onPressed: () => controller.obscure.toggle(),
                 ),
-                onPressed: () => controller.obscure.toggle(),
               ),
             ),
           ),
         ),
         const SizedBox(height: 12),
-        TextField(
-          controller: controller.confirmCtrl,
-          obscureText: true,
-          onSubmitted: (_) => controller.submit(),
-          decoration: const InputDecoration(
-            labelText: 'Repeat password',
-            prefixIcon: Icon(Icons.lock_outline_rounded),
+        LabeledField(
+          label: 'Repeat password',
+          child: TextField(
+            controller: controller.confirmCtrl,
+            obscureText: true,
+            onSubmitted: (_) => controller.submit(),
+            decoration: const InputDecoration(
+              prefixIcon: Icon(Icons.lock_outline_rounded),
+            ),
           ),
         ),
         Obx(() => errorLine(controller.error.value)),

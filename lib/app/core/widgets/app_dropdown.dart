@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'labeled_field.dart';
+
 /// The one dropdown field used across the app. Same arguments as [DropdownButtonFormField] for the ones the screens use;
 /// pass a `key` to rebuild with a new initial value.
 ///
@@ -12,11 +14,14 @@ class AppDropdown<T> extends StatefulWidget {
   final bool isExpanded;
   final bool isDense;
   final Widget? hint;
+  /// Shown above the field (and as the title of the phone picker).
+  final String? label;
 
   const AppDropdown({
     super.key,
     this.initialValue,
     this.decoration,
+    this.label,
     required this.items,
     required this.onChanged,
     this.isExpanded = true,
@@ -53,7 +58,7 @@ class _AppDropdownState<T> extends State<AppDropdown<T>> {
   // ── Phone: a field that opens a bottom sheet ─────────────────────────────
   Future<void> _openSheet(BuildContext context) async {
     final scheme = Theme.of(context).colorScheme;
-    final title = widget.decoration?.labelText ?? widget.decoration?.hintText;
+    final title = widget.label ?? widget.decoration?.hintText;
     final picked = await showModalBottomSheet<_Picked<T>>(
       context: context,
       showDragHandle: true,
@@ -153,7 +158,9 @@ class _AppDropdownState<T> extends State<AppDropdown<T>> {
   @override
   Widget build(BuildContext context) {
     final narrow = MediaQuery.sizeOf(context).width < 600;
-    return narrow ? _sheetField(context) : _menuField(context);
+    final field = narrow ? _sheetField(context) : _menuField(context);
+    final label = widget.label;
+    return label == null ? field : LabeledField(label: label, child: field);
   }
 }
 
